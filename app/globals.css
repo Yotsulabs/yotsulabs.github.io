@@ -1,26 +1,92 @@
 @import "tailwindcss";
 
+@theme {
+  --font-rubik: var(--font-rubik), system-ui, sans-serif;
+  --font-jakarta: var(--font-jakarta), system-ui, sans-serif;
+  --color-brand-purple: #7b42f5;
+  --color-brand-purple-dark: #6b21a8;
+  --color-brand-purple-light: #f3f0ff;
+  --color-brand-bg-soft: #f9f8fd;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: #f9f8fd;
+  --foreground: #13102b;
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-jakarta), sans-serif;
+  overflow-x: hidden;
 }
+
+.bg-grid-pattern {
+  background-color: #f9f8fd;
+  background-image: 
+    linear-gradient(to right, rgba(19, 16, 43, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(19, 16, 43, 0.06) 1px, transparent 1px);
+  background-size: 2.5rem 2.5rem;
+}
+
+.font-heading {
+  font-family: var(--font-rubik), system-ui, sans-serif;
+}
+
+.font-sans {
+  font-family: var(--font-jakarta), system-ui, sans-serif;
+}
+
+/* Light Soft Neobrutalism Utilities (#13102b Dark Accents) */
+.shadow-neo {
+  box-shadow: 4px 4px 0px 0px #13102b;
+}
+
+.shadow-neo-sm {
+  box-shadow: 2px 2px 0px 0px #13102b;
+}
+
+.shadow-neo-lg {
+  box-shadow: 6px 6px 0px 0px #13102b;
+}
+
+.shadow-neo-purple {
+  box-shadow: 5px 5px 0px 0px #7b42f5;
+}
+
+.shadow-neo-purple-lg {
+  box-shadow: 7px 7px 0px 0px #7b42f5;
+}
+
+.shadow-neo-purple-soft {
+  box-shadow: 5px 5px 0px 0px #d8b4fe;
+}
+
+.shadow-neo-white {
+  box-shadow: 4px 4px 0px 0px #ffffff;
+}
+
+.border-neo-thick {
+  border: 3px solid #13102b;
+}
+
+.border-neo {
+  border: 2px solid #13102b;
+}
+
+.border-neo-purple {
+  border: 2px solid #7b42f5;
+}
+
+/* Smooth scroll & Selection */
+html {
+  scroll-behavior: smooth;
+}
+
+::selection {
+  background-color: #7b42f5;
+  color: #ffffff;
+}
+
+
+
