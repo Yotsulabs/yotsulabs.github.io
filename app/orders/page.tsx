@@ -9,9 +9,6 @@ import {
   TbBuilding,
   TbPhone,
   TbMail,
-  TbCode,
-  TbPalette,
-  TbTarget,
   TbClock,
 } from "react-icons/tb";
 import Navbar from "../components/Navbar";
@@ -23,14 +20,18 @@ import Textarea from "../components/ui/Textarea";
 import Select from "../components/ui/Select";
 import { db } from "@/lib/firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-
-type BidangKey = "technology" | "creative" | "marketing";
-
-interface JasaItem {
-  id: string;
-  name: string;
-  desc: string;
-}
+import {
+  BIDANG_LIST,
+  JASA_BY_BIDANG,
+  TARGET_TIME_OPTIONS,
+  BidangKey,
+} from "@/lib/orderData";
+import {
+  getBidangTitle,
+  getJasaName,
+  getTargetTimeLabel,
+  generateWhatsAppMessage,
+} from "@/lib/orderUtils";
 
 export default function OrderPage() {
   // Section 1: Informasi Client
@@ -53,56 +54,11 @@ export default function OrderPage() {
   const [errors, setErrors] = useState<{ fullName?: string; phone?: string }>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Mapping Bidang & Jasa Data
-  const bidangList: { key: BidangKey; title: string; icon: React.ElementType }[] = [
-    { key: "technology", title: "Technology", icon: TbCode },
-    { key: "creative", title: "Creative", icon: TbPalette },
-    { key: "marketing", title: "Digital Marketing", icon: TbTarget },
-  ];
-
-  const jasaByBidang: Record<BidangKey, JasaItem[]> = {
-    technology: [
-      { id: "website", name: "Website", desc: "Landing page, company profile, atau e-commerce studio." },
-      { id: "business-system", name: "Business System", desc: "Sistem aplikasi internal, portal manajemen & SaaS." },
-      { id: "business-automation", name: "Business Automation", desc: "Otomasisasi alur kerja, integrasi API & bot." },
-    ],
-    creative: [
-      { id: "graphic-design", name: "Graphic Design", desc: "Branding kit, logo, brosur & materi visual produk." },
-      { id: "uiux-design", name: "UI/UX Design", desc: "Desain antarmuka aplikasi web/mobile & prototype." },
-      { id: "illustration", name: "Illustrasi", desc: "Visual maskot, karakter, & ilustrasi digital kustom." },
-    ],
-    marketing: [
-      { id: "video-promosi", name: "Video Promosi", desc: "Video konten iklan, reel/tiktok promosi & motion graphic." },
-      { id: "konten-marketing", name: "Konten Marketing", desc: "Strategi konten media sosial, copywriting & perencanaan." },
-      { id: "seo", name: "Optimasi Pencarian (SEO)", desc: "Riset kata kunci & optimasi peringkat Google." },
-    ],
-  };
-
   // Handle Bidang change & set first default Jasa
   const handleBidangChange = (newBidang: BidangKey) => {
     setBidang(newBidang);
-    const firstJasa = jasaByBidang[newBidang]?.[0]?.id || "";
+    const firstJasa = JASA_BY_BIDANG[newBidang]?.[0]?.id || "";
     setJasa(firstJasa);
-  };
-
-  const targetTimeOptions = [
-    { value: "1-2-weeks", label: "< 2 Minggu (Secepatnya / Urgent)" },
-    { value: "2-4-weeks", label: "2 - 4 Minggu (Standar Pengerjaan)" },
-    { value: "1-2-months", label: "1 - 2 Bulan" },
-    { value: "flexible", label: "> 2 Bulan / Fleksibel" },
-  ];
-
-  const getBidangTitle = () => {
-    return bidangList.find((b) => b.key === bidang)?.title || "Technology";
-  };
-
-  const getJasaName = () => {
-    const list = jasaByBidang[bidang] || [];
-    return list.find((j) => j.id === jasa)?.name || "";
-  };
-
-  const getTargetTimeLabel = () => {
-    return targetTimeOptions.find((t) => t.value === targetTime)?.label || "";
   };
 
   const handleOrderSubmit = async (e: React.FormEvent) => {
@@ -126,6 +82,10 @@ export default function OrderPage() {
     setErrors({});
     setIsSubmitting(true);
 
+    const currentBidangTitle = getBidangTitle(bidang);
+    const currentJasaName = getJasaName(bidang, jasa);
+    const currentTargetTimeLabel = getTargetTimeLabel(targetTime);
+
     // Save document to Firestore collection 'orders'
     try {
       await addDoc(collection(db, "orders"), {
@@ -133,13 +93,13 @@ export default function OrderPage() {
         companyName: companyName.trim(),
         phone: phone.trim(),
         email: email.trim(),
-        bidang: getBidangTitle(),
+        bidang: currentBidangTitle,
         bidangKey: bidang,
-        jasa: getJasaName(),
+        jasa: currentJasaName,
         jasaKey: jasa,
         background: background.trim(),
         goal: goal.trim(),
-        targetTime: getTargetTimeLabel(),
+        targetTime: currentTargetTimeLabel,
         targetTimeKey: targetTime,
         notes: notes.trim(),
         status: "pending",
@@ -147,32 +107,20 @@ export default function OrderPage() {
       });
     } catch (err) {
       console.error("Gagal menyimpan ke Firestore:", err);
-      // Continuous fallback: client still gets redirected to WhatsApp
     }
 
-    const messageLines = [
-      `*FORM PEMESANAN PROYEK - YOTSULABS*`,
-      ``,
-      `*Informasi Client:*`,
-      `- Nama Lengkap: ${fullName.trim()}`,
-      companyName.trim() ? `- Nama Usaha/Organisasi: ${companyName.trim()}` : null,
-      `- Nomor WhatsApp: ${phone.trim()}`,
-      email.trim() ? `- Email: ${email.trim()}` : null,
-      ``,
-      `*Kebutuhan Proyek:*`,
-      `- Bidang: ${getBidangTitle()}`,
-      `- Jasa: ${getJasaName()}`,
-      background.trim() ? `- Latar Belakang: ${background.trim()}` : null,
-      goal.trim() ? `- Tujuan Project: ${goal.trim()}` : null,
-      ``,
-      `*Detail Project:*`,
-      `- Target Waktu: ${getTargetTimeLabel()}`,
-      notes.trim() ? `- Referensi/Catatan Tambahan: ${notes.trim()}` : null,
-      ``,
-      `Mohon bantuan diskusi teknis dan penawaran resmi. Terima kasih!`,
-    ]
-      .filter((line) => line !== null)
-      .join("\n");
+    const messageLines = generateWhatsAppMessage({
+      fullName,
+      companyName,
+      phone,
+      email,
+      bidang,
+      jasa,
+      background,
+      goal,
+      targetTime,
+      notes,
+    });
 
     const waUrl = `https://wa.me/62895339023888?text=${encodeURIComponent(messageLines)}`;
 
@@ -200,7 +148,6 @@ export default function OrderPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Main Form */}
           <form onSubmit={handleOrderSubmit} className="lg:col-span-7 space-y-8">
-            
             {/* 1. Informasi Client */}
             <Card variant="white" shadowVariant="purple" className="space-y-5">
               <div className="flex items-center gap-3 border-b-2 border-slate-200 pb-3">
@@ -270,7 +217,7 @@ export default function OrderPage() {
                   Pilih Bidang Utama:
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                  {bidangList.map((b) => {
+                  {BIDANG_LIST.map((b) => {
                     const isSelected = bidang === b.key;
                     const IconComp = b.icon;
                     return (
@@ -297,10 +244,10 @@ export default function OrderPage() {
               {/* Jasa Selector */}
               <div>
                 <label className="block font-heading font-extrabold text-xs uppercase tracking-wider text-slate-700 mb-2.5">
-                  Pilih Jasa spesifik ({getBidangTitle()}):
+                  Pilih Jasa spesifik ({getBidangTitle(bidang)}):
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                  {jasaByBidang[bidang].map((jItem) => {
+                  {JASA_BY_BIDANG[bidang].map((jItem) => {
                     const isSelected = jasa === jItem.id;
                     return (
                       <button
@@ -322,7 +269,9 @@ export default function OrderPage() {
                               isSelected ? "bg-[#7b42f5]" : "bg-white"
                             }`}
                           >
-                            {isSelected && <span className="w-1 h-1 rounded-full bg-white" />}
+                            {isSelected && (
+                              <span className="w-1 h-1 rounded-full bg-white" />
+                            )}
                           </div>
                         </div>
                         <p className="text-[11px] text-slate-600 font-medium leading-snug">
@@ -367,7 +316,7 @@ export default function OrderPage() {
 
               <Select
                 label="Target Waktu Pengerjaan *"
-                options={targetTimeOptions}
+                options={TARGET_TIME_OPTIONS}
                 value={targetTime}
                 onChange={(e) => setTargetTime(e.target.value)}
                 icon={TbClock}
@@ -392,7 +341,9 @@ export default function OrderPage() {
                 className="w-full h-12"
               >
                 <TbBrandWhatsapp className="w-5 h-5" />
-                <span>{isSubmitting ? "Mengalihkan ke WA..." : "Kirim Order via WhatsApp"}</span>
+                <span>
+                  {isSubmitting ? "Mengalihkan ke WA..." : "Kirim Order via WhatsApp"}
+                </span>
                 <TbArrowRight className="w-5 h-5 stroke-[2.5]" />
               </Button>
             </div>
@@ -414,7 +365,7 @@ export default function OrderPage() {
                     Bidang & Jasa Terpilih:
                   </span>
                   <div className="font-heading font-black text-xl text-white mt-1">
-                    {getBidangTitle()} &bull; {getJasaName()}
+                    {getBidangTitle(bidang)} &bull; {getJasaName(bidang, jasa)}
                   </div>
                 </div>
 
@@ -435,12 +386,14 @@ export default function OrderPage() {
                   )}
                   <div className="flex justify-between">
                     <span className="text-white/70 font-medium">WhatsApp:</span>
-                    <span className="font-bold text-white">{phone.trim() || "-"}</span>
+                    <span className="font-bold text-white">
+                      {phone.trim() || "-"}
+                    </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-white/70 font-medium">Target Waktu:</span>
                     <span className="font-bold text-white truncate max-w-[170px]">
-                      {getTargetTimeLabel()}
+                      {getTargetTimeLabel(targetTime)}
                     </span>
                   </div>
                 </div>
@@ -449,7 +402,9 @@ export default function OrderPage() {
               {/* Security info */}
               <div className="flex items-center gap-2 text-xs font-semibold text-white/90 border-t border-white/20 pt-4">
                 <TbShieldCheck className="w-5 h-5 shrink-0 stroke-[2.5]" />
-                <span>Konsultasi gratis tanpa biaya tersembunyi. Tim Yotsulabs merespons dalam 1x24 jam.</span>
+                <span>
+                  Konsultasi gratis tanpa biaya tersembunyi. Tim Yotsulabs merespons dalam 1x24 jam.
+                </span>
               </div>
 
               {/* Desktop Submit Button */}
@@ -462,7 +417,11 @@ export default function OrderPage() {
                   className="w-full h-13"
                 >
                   <TbBrandWhatsapp className="w-5 h-5 text-[#7b42f5]" />
-                  <span>{isSubmitting ? "Mengalihkan ke WA..." : "Kirim Order via WhatsApp"}</span>
+                  <span>
+                    {isSubmitting
+                      ? "Mengalihkan ke WA..."
+                      : "Kirim Order via WhatsApp"}
+                  </span>
                   <TbArrowRight className="w-5 h-5 stroke-[2.5]" />
                 </Button>
               </div>

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
 import { TbBrandWhatsapp, TbArrowRight } from "react-icons/tb";
-import Button from "../components/ui/Button";
+import Button from "../../ui/Button";
 
 export default function HeroSection() {
   const whatsappUrl =

@@ -116,7 +116,7 @@ export default function Navbar() {
                 <Button
                   variant="secondary"
                   size="md"
-                  href="/order"
+                  href="/orders"
                 >
                   <span>Order Project</span>
                   <TbArrowUpRight className="w-4 h-4 stroke-[2.5]" />
@@ -234,7 +234,7 @@ export default function Navbar() {
             <div className="relative z-10 mt-6 pt-5 border-t-2 border-[#13102b] space-y-3">
               <Button
                 variant="secondary"
-                href="/order"
+                href="/orders"
                 onClick={() => setMobileMenuOpen(false)}
                 className="w-full h-12 justify-center text-sm"
               >

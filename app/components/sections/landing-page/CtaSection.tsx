@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { motion } from "motion/react";
 import { TbArrowRight } from "react-icons/tb";
-import Button from "../components/ui/Button";
+import Button from "../../ui/Button";
 
 export default function CtaSection() {
   return (
@@ -40,7 +40,7 @@ export default function CtaSection() {
               <Button
                 variant="secondary"
                 size="lg"
-                href="/order"
+                href="/orders"
               >
                 <span>Order Sekarang</span>
                 <TbArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform stroke-[2.5]" />

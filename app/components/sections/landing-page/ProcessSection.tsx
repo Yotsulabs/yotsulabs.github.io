@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion } from "motion/react";
 import { TbSearch, TbCompass, TbCpu, TbRocket, TbChevronRight, TbCircleCheck } from "react-icons/tb";
-import SectionHeader from "../components/ui/SectionHeader";
+import SectionHeader from "../../ui/SectionHeader";
 
 export default function ProcessSection() {
   const [activeStep, setActiveStep] = useState(0);

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { TbPlus, TbMinus } from "react-icons/tb";
-import SectionHeader from "../components/ui/SectionHeader";
+import SectionHeader from "../../ui/SectionHeader";
 
 export default function FaqSection() {
   const [openIdx, setOpenIdx] = useState<number | null>(0);
