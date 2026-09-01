@@ -18,11 +18,8 @@ interface ServiceFormModalProps {
     description: string;
     items: SubServiceItem[];
     item1Title?: string;
-    item1Desc?: string;
     item2Title?: string;
-    item2Desc?: string;
     item3Title?: string;
-    item3Desc?: string;
   }) => Promise<void>;
 }
 
@@ -41,29 +38,20 @@ export default function ServiceFormModal({
   // Initialize dynamic sub-services list from editingService.items or item1/item2/item3
   const [items, setItems] = useState<SubServiceItem[]>(() => {
     if (editingService?.items && editingService.items.length > 0) {
-      return editingService.items;
+      return editingService.items.map((it) => ({ title: it.title }));
     }
     const initial: SubServiceItem[] = [];
     if (editingService?.item1Title) {
-      initial.push({
-        title: editingService.item1Title,
-        desc: editingService.item1Desc || "",
-      });
+      initial.push({ title: editingService.item1Title });
     }
     if (editingService?.item2Title) {
-      initial.push({
-        title: editingService.item2Title,
-        desc: editingService.item2Desc || "",
-      });
+      initial.push({ title: editingService.item2Title });
     }
     if (editingService?.item3Title) {
-      initial.push({
-        title: editingService.item3Title,
-        desc: editingService.item3Desc || "",
-      });
+      initial.push({ title: editingService.item3Title });
     }
     if (initial.length === 0) {
-      initial.push({ title: "", desc: "" });
+      initial.push({ title: "" });
     }
     return initial;
   });
@@ -74,7 +62,7 @@ export default function ServiceFormModal({
 
   // Add new dynamic sub-service item
   const handleAddSubService = () => {
-    setItems((prev) => [...prev, { title: "", desc: "" }]);
+    setItems((prev) => [...prev, { title: "" }]);
   };
 
   // Remove dynamic sub-service item
@@ -83,15 +71,9 @@ export default function ServiceFormModal({
   };
 
   // Update dynamic sub-service item
-  const handleUpdateSubService = (
-    index: number,
-    field: "title" | "desc",
-    value: string
-  ) => {
+  const handleUpdateSubService = (index: number, value: string) => {
     setItems((prev) =>
-      prev.map((item, idx) =>
-        idx === index ? { ...item, [field]: value } : item
-      )
+      prev.map((item, idx) => (idx === index ? { title: value } : item))
     );
   };
 
@@ -111,11 +93,8 @@ export default function ServiceFormModal({
       items: filteredItems,
       // Backward compatibility fields
       item1Title: filteredItems[0]?.title || "",
-      item1Desc: filteredItems[0]?.desc || "",
       item2Title: filteredItems[1]?.title || "",
-      item2Desc: filteredItems[1]?.desc || "",
       item3Title: filteredItems[2]?.title || "",
-      item3Desc: filteredItems[2]?.desc || "",
     };
 
     setIsSubmitting(true);
@@ -218,15 +197,7 @@ export default function ServiceFormModal({
                     placeholder="Judul (Contoh: Website Profil & E-Commerce)"
                     value={item.title}
                     onChange={(e) =>
-                      handleUpdateSubService(idx, "title", e.target.value)
-                    }
-                  />
-
-                  <Input
-                    placeholder="Deskripsi ringkas sub-layanan..."
-                    value={item.desc || ""}
-                    onChange={(e) =>
-                      handleUpdateSubService(idx, "desc", e.target.value)
+                      handleUpdateSubService(idx, e.target.value)
                     }
                   />
                 </div>

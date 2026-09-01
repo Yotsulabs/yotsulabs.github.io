@@ -23,6 +23,7 @@ import Button from "@/app/components/ui/Button";
 import Input from "@/app/components/ui/Input";
 import Badge from "@/app/components/ui/Badge";
 import EmptyState from "@/app/components/ui/EmptyState";
+import { TableSkeleton } from "@/app/components/ui/Skeleton";
 import OrderDetailModal from "@/app/components/modals/admin/OrderDetailModal";
 
 interface OrdersSectionProps {
@@ -164,12 +165,7 @@ export default function OrdersSection({
       </div>
 
       {isLoadingOrders ? (
-        <div className="bg-white border-3 border-[#13102b] rounded-2xl p-12 text-center shadow-[6px_6px_0px_0px_#13102b]">
-          <div className="w-8 h-8 rounded-full border-4 border-[#7b42f5] border-t-transparent animate-spin mx-auto mb-3" />
-          <p className="text-slate-600 font-bold text-sm">
-            Memuat data...
-          </p>
-        </div>
+        <TableSkeleton rows={4} />
       ) : filteredOrders.length === 0 ? (
         <EmptyState
           icon={TbFileText}

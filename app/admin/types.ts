@@ -31,7 +31,6 @@ export interface PortfolioDoc {
 
 export interface SubServiceItem {
   title: string;
-  desc?: string;
 }
 
 export interface ServiceItemDoc {

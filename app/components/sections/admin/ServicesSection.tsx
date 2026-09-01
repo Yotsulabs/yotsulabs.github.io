@@ -23,6 +23,7 @@ import {
 import Button from "@/app/components/ui/Button";
 import Card from "@/app/components/ui/Card";
 import EmptyState from "@/app/components/ui/EmptyState";
+import { CardGridSkeleton } from "@/app/components/ui/Skeleton";
 import ServiceFormModal from "@/app/components/modals/admin/ServiceFormModal";
 
 interface ServicesSectionProps {
@@ -140,12 +141,7 @@ export default function ServicesSection({
       </div>
 
       {isLoadingServices ? (
-        <div className="bg-white border-3 border-[#13102b] rounded-2xl p-12 text-center shadow-[6px_6px_0px_0px_#13102b]">
-          <div className="w-8 h-8 rounded-full border-4 border-[#7b42f5] border-t-transparent animate-spin mx-auto mb-3" />
-          <p className="text-slate-600 font-bold text-sm">
-            Memuat data...
-          </p>
-        </div>
+        <CardGridSkeleton count={2} columns="grid-cols-1 md:grid-cols-2" />
       ) : services.length === 0 ? (
         <EmptyState
           icon={TbLayoutDashboard}
@@ -217,11 +213,6 @@ export default function ServicesSection({
                           <strong className="font-heading font-bold text-[#13102b] block">
                             {idx + 1}. {item.title}
                           </strong>
-                          {item.desc && (
-                            <span className="text-slate-600 block mt-0.5">
-                              {item.desc}
-                            </span>
-                          )}
                         </div>
                       ))}
                     </div>
