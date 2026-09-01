@@ -19,9 +19,11 @@ import {
   TbTrash,
   TbEdit,
   TbPlus,
+  TbCheck,
 } from "react-icons/tb";
 import Button from "@/app/components/ui/Button";
 import Card from "@/app/components/ui/Card";
+import Badge from "@/app/components/ui/Badge";
 import EmptyState from "@/app/components/ui/EmptyState";
 import { CardGridSkeleton } from "@/app/components/ui/Skeleton";
 import ServiceFormModal from "@/app/components/modals/admin/ServiceFormModal";
@@ -83,11 +85,8 @@ export default function ServicesSection({
     description: string;
     items: SubServiceItem[];
     item1Title?: string;
-    item1Desc?: string;
     item2Title?: string;
-    item2Desc?: string;
     item3Title?: string;
-    item3Desc?: string;
   }) => {
     const dataToSave = {
       ...payload,
@@ -155,39 +154,50 @@ export default function ServicesSection({
         />
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {services.map((svc) => {
+          {services.map((svc, idx) => {
+            const isPurpleBg = idx % 2 === 0;
             const subItems: SubServiceItem[] =
               Array.isArray(svc.items) && svc.items.length > 0
                 ? svc.items
                 : [
-                    svc.item1Title ? { title: svc.item1Title, desc: svc.item1Desc } : null,
-                    svc.item2Title ? { title: svc.item2Title, desc: svc.item2Desc } : null,
-                    svc.item3Title ? { title: svc.item3Title, desc: svc.item3Desc } : null,
+                    svc.item1Title ? { title: svc.item1Title } : null,
+                    svc.item2Title ? { title: svc.item2Title } : null,
+                    svc.item3Title ? { title: svc.item3Title } : null,
                   ].filter(Boolean) as SubServiceItem[];
 
             return (
               <Card
                 key={svc.id}
-                variant="white"
-                shadowVariant="purple"
-                className="flex flex-col justify-between space-y-4"
+                variant={isPurpleBg ? "purple" : "white"}
+                shadowVariant={isPurpleBg ? "dark" : "purple"}
+                className="flex flex-col justify-between"
               >
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between border-b-2 border-slate-200 pb-3">
-                    <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#7b42f5] bg-[#f3f0ff] px-3 py-0.5 rounded-full border border-[#13102b]">
+                <div>
+                  {/* Top Header: Pillar Badge & Action buttons */}
+                  <div className="flex items-center justify-between mb-4 border-b-2 border-white/20 pb-3">
+                    <Badge variant={isPurpleBg ? "white" : "soft"} size="sm">
                       {svc.pillar}
-                    </span>
+                    </Badge>
+
                     <div className="flex items-center gap-1">
                       <button
                         onClick={() => openServiceModal(svc)}
-                        className="p-1.5 text-slate-700 hover:bg-[#f3f0ff] rounded-lg border border-transparent hover:border-[#13102b] transition-colors cursor-pointer"
+                        className={`p-1.5 rounded-lg border transition-colors cursor-pointer ${
+                          isPurpleBg
+                            ? "text-white hover:bg-white/20 border-transparent hover:border-white"
+                            : "text-slate-700 hover:bg-[#f3f0ff] border-transparent hover:border-[#13102b]"
+                        }`}
                         title="Edit Layanan"
                       >
-                        <TbEdit className="w-4 h-4 text-[#7b42f5]" />
+                        <TbEdit className={`w-4 h-4 ${isPurpleBg ? "text-white" : "text-[#7b42f5]"}`} />
                       </button>
                       <button
                         onClick={() => setServiceToDelete(svc)}
-                        className="p-1.5 text-rose-600 hover:bg-rose-100 rounded-lg border border-transparent hover:border-[#13102b] transition-colors cursor-pointer"
+                        className={`p-1.5 rounded-lg border transition-colors cursor-pointer ${
+                          isPurpleBg
+                            ? "text-rose-200 hover:bg-rose-900/40 border-transparent hover:border-white"
+                            : "text-rose-600 hover:bg-rose-100 border-transparent hover:border-[#13102b]"
+                        }`}
                         title="Hapus Layanan"
                       >
                         <TbTrash className="w-4 h-4" />
@@ -195,24 +205,48 @@ export default function ServicesSection({
                     </div>
                   </div>
 
-                  <h3 className="font-heading font-black text-xl text-[#13102b]">
+                  {/* Title & Description */}
+                  <h3
+                    className={`font-heading font-black text-2xl mb-3 tracking-tight ${
+                      isPurpleBg ? "text-white" : "text-[#13102b]"
+                    }`}
+                  >
                     {svc.title}
                   </h3>
 
-                  <p className="text-xs text-slate-700 font-sans font-medium leading-relaxed">
+                  <p
+                    className={`text-sm leading-relaxed mb-6 font-sans font-medium ${
+                      isPurpleBg ? "text-purple-100" : "text-slate-700"
+                    }`}
+                  >
                     {svc.description}
                   </p>
 
+                  {/* Sub-services / Features List matching Landing Page style */}
                   {subItems.length > 0 && (
-                    <div className="space-y-2 pt-2 border-t border-slate-200 text-xs">
-                      {subItems.map((item, idx) => (
-                        <div
-                          key={idx}
-                          className="bg-[#f9f8fd] p-2.5 rounded-lg border border-[#13102b]"
-                        >
-                          <strong className="font-heading font-bold text-[#13102b] block">
-                            {idx + 1}. {item.title}
-                          </strong>
+                    <div
+                      className={`space-y-3 pt-4 border-t-2 ${
+                        isPurpleBg ? "border-white/20" : "border-slate-200"
+                      }`}
+                    >
+                      {subItems.map((item, fIdx) => (
+                        <div key={fIdx} className="flex items-start gap-2.5">
+                          <div
+                            className={`w-5 h-5 rounded-full border-2 border-[#13102b] flex items-center justify-center shrink-0 mt-0.5 ${
+                              isPurpleBg
+                                ? "bg-white text-[#7b42f5]"
+                                : "bg-[#7b42f5] text-white"
+                            }`}
+                          >
+                            <TbCheck className="w-3.5 h-3.5 stroke-[3]" />
+                          </div>
+                          <span
+                            className={`text-xs sm:text-sm font-sans font-bold ${
+                              isPurpleBg ? "text-white" : "text-[#13102b]"
+                            }`}
+                          >
+                            {item.title}
+                          </span>
                         </div>
                       ))}
                     </div>

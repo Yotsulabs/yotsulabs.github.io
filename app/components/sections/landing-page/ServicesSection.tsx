@@ -13,6 +13,7 @@ import {
 } from "react-icons/tb";
 import SectionHeader from "../../ui/SectionHeader";
 import Button from "../../ui/Button";
+import Card from "../../ui/Card";
 import EmptyState from "../../ui/EmptyState";
 import { CardGridSkeleton } from "../../ui/Skeleton";
 
@@ -21,16 +22,11 @@ interface ServiceItem {
   category: "tech" | "creative" | "marketing";
   title: string;
   description: string;
-  icon: React.ElementType;
-  badge: string;
-  color: string;
-  textColor: string;
-  shadow: string;
   features: string[];
 }
 
 export default function ServicesSection() {
-  const [activeTab, setActiveTab] = useState<"all" | "tech" | "creative" | "marketing">("all");
+  const [activeTab, setActiveTab] = useState<"tech" | "creative" | "marketing">("tech");
   const [services, setServices] = useState<ServiceItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -41,7 +37,7 @@ export default function ServicesSection() {
       q,
       (snapshot) => {
         if (!snapshot.empty) {
-          const dynamicList: ServiceItem[] = snapshot.docs.map((docSnap, idx) => {
+          const dynamicList: ServiceItem[] = snapshot.docs.map((docSnap) => {
             const data = docSnap.data();
             const p = data.pillar || "technology";
             const catMap: Record<string, "tech" | "creative" | "marketing"> = {
@@ -51,18 +47,6 @@ export default function ServicesSection() {
               marketing: "marketing",
             };
             const category = catMap[p] || "tech";
-
-            const iconMap: Record<string, React.ElementType> = {
-              tech: TbCode,
-              creative: TbPalette,
-              marketing: TbTarget,
-            };
-
-            const badgeMap: Record<string, string> = {
-              tech: "Tech Pillar",
-              creative: "Creative Pillar",
-              marketing: "Marketing Pillar",
-            };
 
             let features: string[] = [];
             if (Array.isArray(data.items) && data.items.length > 0) {
@@ -82,11 +66,6 @@ export default function ServicesSection() {
               category: category,
               title: data.title || "Layanan Kustom",
               description: data.description || "Solusi digital sesuai kebutuhan bisnis.",
-              icon: iconMap[category] || TbCode,
-              badge: badgeMap[category] || "Digital Pillar",
-              color: idx % 2 === 0 ? "bg-[#7b42f5]" : "bg-white",
-              textColor: idx % 2 === 0 ? "text-white" : "text-[#13102b]",
-              shadow: idx % 2 === 0 ? "shadow-[6px_6px_0px_0px_#7b42f5]" : "shadow-[6px_6px_0px_0px_#13102b]",
               features: features.length > 0 ? features : ["Konsultasi Problem-First", "Desain & Implementasi"],
             };
           });
@@ -105,10 +84,7 @@ export default function ServicesSection() {
     return () => unsubscribe();
   }, []);
 
-  const filteredServices =
-    activeTab === "all"
-      ? services
-      : services.filter((item) => item.category === activeTab);
+  const filteredServices = services.filter((item) => item.category === activeTab);
 
   const orderUrl = (serviceTitle: string) =>
     `/orders?service=${encodeURIComponent(serviceTitle)}`;
@@ -125,7 +101,6 @@ export default function ServicesSection() {
         {/* Pillar Filter Tabs */}
         <div className="flex flex-wrap items-center justify-center gap-3 mb-16">
           {[
-            { id: "all", label: "Semua Layanan", icon: null },
             { id: "tech", label: "Technology", icon: TbCode },
             { id: "creative", label: "Creative", icon: TbPalette },
             { id: "marketing", label: "Digital Marketing", icon: TbTarget },
@@ -136,7 +111,7 @@ export default function ServicesSection() {
               <button
                 key={tab.id}
                 onClick={() =>
-                  setActiveTab(tab.id as "all" | "tech" | "creative" | "marketing")
+                  setActiveTab(tab.id as "tech" | "creative" | "marketing")
                 }
                 className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-heading font-extrabold text-sm border-2 transition-all cursor-pointer ${
                   isActive
@@ -163,11 +138,10 @@ export default function ServicesSection() {
             actionIcon={TbArrowRight}
           />
         ) : (
-          /* Services Grid */
+          /* Services Grid using Card component with alternating Purple & White variants */
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {filteredServices.map((service, idx) => {
-              const IconComponent = service.icon;
-              const isPurpleBg = service.color === "bg-[#7b42f5]";
+              const isPurpleBg = idx % 2 === 0;
 
               return (
                 <motion.div
@@ -176,81 +150,70 @@ export default function ServicesSection() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: idx * 0.1 }}
-                  className={`border-3 border-[#13102b] rounded-2xl p-6 sm:p-8 ${service.color} ${service.shadow} flex flex-col justify-between hover:-translate-y-1 transition-all group`}
+                  className="hover:-translate-y-1 transition-all group flex flex-col h-full"
                 >
-                  <div>
-                    {/* Top Badge & Icon */}
-                    <div className="flex items-center justify-between mb-6">
-                      <span
-                        className={`text-xs font-mono font-extrabold uppercase tracking-wider px-3 py-1 border-2 border-[#13102b] rounded-lg ${
-                          isPurpleBg
-                            ? "bg-white text-[#13102b]"
-                            : "bg-[#f3f0ff] text-purple-900"
+                  <Card
+                    variant={isPurpleBg ? "purple" : "white"}
+                    shadowVariant={isPurpleBg ? "dark" : "purple"}
+                    className="flex flex-col justify-between h-full"
+                  >
+                    <div>
+                      {/* Title & Description */}
+                      <h3
+                        className={`font-heading font-black text-2xl mb-3 tracking-tight ${
+                          isPurpleBg ? "text-white" : "text-[#13102b]"
                         }`}
                       >
-                        {service.badge}
-                      </span>
+                        {service.title}
+                      </h3>
 
-                      <div
-                        className={`w-12 h-12 rounded-xl border-2 border-[#13102b] flex items-center justify-center ${
-                          isPurpleBg
-                            ? "bg-white text-[#7b42f5]"
-                            : "bg-[#7b42f5] text-white"
-                        } shadow-[2px_2px_0px_0px_#13102b]`}
+                      <p
+                        className={`text-sm leading-relaxed mb-6 font-sans font-medium ${
+                          isPurpleBg ? "text-purple-100" : "text-slate-700"
+                        }`}
                       >
-                        <IconComponent className="w-6 h-6 stroke-[2.5]" />
+                        {service.description}
+                      </p>
+
+                      {/* Sub-services / Features List */}
+                      <div
+                        className={`space-y-3 mb-8 pt-4 border-t-2 ${
+                          isPurpleBg ? "border-white/20" : "border-slate-200"
+                        }`}
+                      >
+                        {service.features.map((feature, fIdx) => (
+                          <div key={fIdx} className="flex items-start gap-2.5">
+                            <div
+                              className={`w-5 h-5 rounded-full border-2 border-[#13102b] flex items-center justify-center shrink-0 mt-0.5 ${
+                                isPurpleBg
+                                  ? "bg-white text-[#7b42f5]"
+                                  : "bg-[#7b42f5] text-white"
+                              }`}
+                            >
+                              <TbCheck className="w-3.5 h-3.5 stroke-[3]" />
+                            </div>
+                            <span
+                              className={`text-xs sm:text-sm font-sans font-bold ${
+                                isPurpleBg ? "text-white" : "text-[#13102b]"
+                              }`}
+                            >
+                              {feature}
+                            </span>
+                          </div>
+                        ))}
                       </div>
                     </div>
 
-                    {/* Title & Description */}
-                    <h3
-                      className={`font-heading font-black text-2xl mb-3 tracking-tight ${service.textColor}`}
+                    {/* CTA Button UI Component */}
+                    <Button
+                      variant={isPurpleBg ? "secondary" : "primary"}
+                      href={orderUrl(service.title)}
+                      className="w-full justify-between mt-auto"
                     >
-                      {service.title}
-                    </h3>
-
-                    <p
-                      className={`text-sm leading-relaxed mb-6 font-sans font-medium ${
-                        isPurpleBg ? "text-purple-100" : "text-slate-700"
-                      }`}
-                    >
-                      {service.description}
-                    </p>
-
-                    {/* Sub-services / Features List */}
-                    <div className="space-y-3 mb-8 pt-4 border-t-2 border-[#13102b]/20">
-                      {service.features.map((feature, fIdx) => (
-                        <div key={fIdx} className="flex items-start gap-2.5">
-                          <div
-                            className={`w-5 h-5 rounded-full border-2 border-[#13102b] flex items-center justify-center shrink-0 mt-0.5 ${
-                              isPurpleBg
-                                ? "bg-white text-[#7b42f5]"
-                                : "bg-[#7b42f5] text-white"
-                            }`}
-                          >
-                            <TbCheck className="w-3.5 h-3.5 stroke-[3]" />
-                          </div>
-                          <span
-                            className={`text-xs sm:text-sm font-sans font-bold ${
-                              isPurpleBg ? "text-white" : "text-[#13102b]"
-                            }`}
-                          >
-                            {feature}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* CTA Button UI Component */}
-                  <Button
-                    variant={isPurpleBg ? "secondary" : "primary"}
-                    href={orderUrl(service.title)}
-                    className="w-full justify-between"
-                  >
-                    <span>Pesan Jasa Ini</span>
-                    <TbArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform stroke-[2.5]" />
-                  </Button>
+                      <span>Pesan Jasa Ini</span>
+                      <TbArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform stroke-[2.5]" />
+                    </Button>
+                  </Card>
                 </motion.div>
               );
             })}
