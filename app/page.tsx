@@ -1,10 +1,10 @@
 import Navbar from "./components/Navbar";
-import HeroSection from "./landing-page/HeroSection";
-import ServicesSection from "./landing-page/ServicesSection";
-import ProcessSection from "./landing-page/ProcessSection";
-import PortfolioSection from "./landing-page/PortfolioSection";
-import FaqSection from "./landing-page/FaqSection";
-import CtaSection from "./landing-page/CtaSection";
+import HeroSection from "./components/sections/landing-page/HeroSection";
+import ServicesSection from "./components/sections/landing-page/ServicesSection";
+import ProcessSection from "./components/sections/landing-page/ProcessSection";
+import PortfolioSection from "./components/sections/landing-page/PortfolioSection";
+import FaqSection from "./components/sections/landing-page/FaqSection";
+import CtaSection from "./components/sections/landing-page/CtaSection";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
 

@@ -1,0 +1,286 @@
+/* eslint-disable @next/next/no-img-element */
+"use client";
+
+import React, { useState, useEffect } from "react";
+import {
+  collection,
+  onSnapshot,
+  doc,
+  updateDoc,
+  deleteDoc,
+  addDoc,
+  serverTimestamp,
+  query,
+  orderBy,
+} from "firebase/firestore";
+import { db } from "@/lib/firebase";
+import { PortfolioDoc } from "@/app/admin/types";
+import {
+  TbBriefcase,
+  TbTrash,
+  TbEdit,
+  TbPlus,
+  TbBuildingStore,
+  TbExternalLink,
+} from "react-icons/tb";
+import Button from "@/app/components/ui/Button";
+import Card from "@/app/components/ui/Card";
+import EmptyState from "@/app/components/ui/EmptyState";
+import PortfolioFormModal from "@/app/components/modals/admin/PortfolioFormModal";
+
+interface PortfoliosSectionProps {
+  isAuthenticated: boolean;
+  onCountChange?: (count: number) => void;
+}
+
+export default function PortfoliosSection({
+  isAuthenticated,
+  onCountChange,
+}: PortfoliosSectionProps) {
+  const [portfolios, setPortfolios] = useState<PortfolioDoc[]>([]);
+  const [isPortfolioModalOpen, setIsPortfolioModalOpen] = useState(false);
+  const [editingPortfolio, setEditingPortfolio] = useState<PortfolioDoc | null>(null);
+  const [portfolioToDelete, setPortfolioToDelete] = useState<PortfolioDoc | null>(null);
+  const [isLoadingPortfolios, setIsLoadingPortfolios] = useState(true);
+
+  // Subscribe to Portfolios Collection
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    const q = query(collection(db, "portfolios"), orderBy("createdAt", "desc"));
+    const unsubscribe = onSnapshot(
+      q,
+      (snapshot) => {
+        const pfList: PortfolioDoc[] = snapshot.docs.map((docSnap) => ({
+          id: docSnap.id,
+          ...(docSnap.data() as Omit<PortfolioDoc, "id">),
+        }));
+        setPortfolios(pfList);
+        setIsLoadingPortfolios(false);
+        if (onCountChange) {
+          onCountChange(pfList.length);
+        }
+      },
+      (err) => {
+        console.error("Error subscribing to portfolios:", err);
+        setIsLoadingPortfolios(false);
+      }
+    );
+    return () => unsubscribe();
+  }, [isAuthenticated, onCountChange]);
+
+  // Open Portfolio Modal for Add or Edit
+  const openPortfolioModal = (pf?: PortfolioDoc) => {
+    if (pf) {
+      setEditingPortfolio(pf);
+    } else {
+      setEditingPortfolio(null);
+    }
+    setIsPortfolioModalOpen(true);
+  };
+
+  // Save Portfolio to Firestore
+  const handleSavePortfolio = async (payload: {
+    title: string;
+    companyName: string;
+    category: string;
+    tags: string[];
+    imageUrl: string;
+    description: string;
+  }) => {
+    const dataToSave = {
+      ...payload,
+      createdAt: serverTimestamp(),
+    };
+
+    try {
+      if (editingPortfolio) {
+        await updateDoc(doc(db, "portfolios", editingPortfolio.id), dataToSave);
+      } else {
+        await addDoc(collection(db, "portfolios"), dataToSave);
+      }
+    } catch (err) {
+      console.error("Error saving portfolio to Firestore:", err);
+      alert("Gagal menyimpan portofolio ke Firestore.");
+      throw err;
+    }
+  };
+
+  // Delete Portfolio
+  const handleDeletePortfolio = async () => {
+    if (!portfolioToDelete) return;
+    try {
+      await deleteDoc(doc(db, "portfolios", portfolioToDelete.id));
+      setPortfolioToDelete(null);
+    } catch (err) {
+      console.error("Error deleting portfolio:", err);
+      alert("Gagal menghapus portofolio.");
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Controls Bar */}
+      <div className="flex items-center justify-between bg-white p-4 rounded-2xl border-3 border-[#13102b] shadow-[5px_5px_0px_0px_#7b42f5]">
+        <div>
+          <h3 className="font-heading font-black text-lg text-[#13102b]">
+            Portofolio Yotsulabs
+          </h3>
+        </div>
+
+        <Button
+          variant="primary"
+          size="md"
+          onClick={() => openPortfolioModal()}
+          className="cursor-pointer"
+        >
+          <TbPlus className="w-5 h-5 stroke-[2.5]" />
+          <span>Tambah Portofolio</span>
+        </Button>
+      </div>
+
+      {isLoadingPortfolios ? (
+        <div className="bg-white border-3 border-[#13102b] rounded-2xl p-12 text-center shadow-[6px_6px_0px_0px_#13102b]">
+          <div className="w-8 h-8 rounded-full border-4 border-[#7b42f5] border-t-transparent animate-spin mx-auto mb-3" />
+          <p className="text-slate-600 font-bold text-sm">
+            Memuat data...
+          </p>
+        </div>
+      ) : portfolios.length === 0 ? (
+        <EmptyState
+          icon={TbBriefcase}
+          title="Belum Ada Portofolio di Firestore"
+          description="Tambahkan item portofolio proyek baru untuk menyimpannya di Firebase Firestore secara langsung."
+          actionText="Tambah Portofolio Pertama"
+          onActionClick={() => openPortfolioModal()}
+          actionIcon={TbPlus}
+          shadowVariant="black"
+          fullWidth
+        />
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {portfolios.map((pf) => (
+            <Card
+              key={pf.id}
+              variant="white"
+              shadowVariant="purple"
+              className="flex flex-col justify-between overflow-hidden"
+            >
+              <div className="space-y-4">
+                {/* Preview Image Thumbnail if available */}
+                {pf.imageUrl && (
+                  <div className="-mx-6 -mt-6 mb-2 border-b-2 border-[#13102b] overflow-hidden bg-slate-100 relative h-44">
+                    <img
+                      src={pf.imageUrl}
+                      alt={pf.title}
+                      className="w-full h-full object-cover"
+                    />
+                    <a
+                      href={pf.imageUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="absolute top-2 right-2 p-1.5 bg-white/90 hover:bg-white text-[#13102b] rounded-lg border border-[#13102b] shadow-sm"
+                      title="Buka Gambar Cloudinary"
+                    >
+                      <TbExternalLink className="w-4 h-4" />
+                    </a>
+                  </div>
+                )}
+
+                <div className="flex items-center justify-between border-b-2 border-slate-200 pb-3">
+                  <span className="text-[11px] font-mono font-bold bg-[#13102b] text-white px-2.5 py-0.5 rounded">
+                    {pf.category}
+                  </span>
+                  <div className="flex items-center gap-1">
+                    <button
+                      onClick={() => openPortfolioModal(pf)}
+                      className="p-1.5 text-slate-700 hover:bg-[#f3f0ff] rounded-lg border border-transparent hover:border-[#13102b] transition-colors cursor-pointer"
+                      title="Edit Portofolio"
+                    >
+                      <TbEdit className="w-4 h-4 text-[#7b42f5]" />
+                    </button>
+                    <button
+                      onClick={() => setPortfolioToDelete(pf)}
+                      className="p-1.5 text-rose-600 hover:bg-rose-100 rounded-lg border border-transparent hover:border-[#13102b] transition-colors cursor-pointer"
+                      title="Hapus Portofolio"
+                    >
+                      <TbTrash className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="font-heading font-black text-xl text-[#13102b]">
+                    {pf.title}
+                  </h3>
+                  {pf.companyName && (
+                    <div className="flex items-center gap-1 text-xs font-mono font-bold text-[#7b42f5] mt-0.5">
+                      <TbBuildingStore className="w-3.5 h-3.5" />
+                      <span>{pf.companyName}</span>
+                    </div>
+                  )}
+                </div>
+
+                <p className="text-xs text-slate-700 font-sans font-medium leading-relaxed">
+                  {pf.description}
+                </p>
+
+                {Array.isArray(pf.tags) && pf.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5 pt-2">
+                    {pf.tags.map((t, idx) => (
+                      <span
+                        key={idx}
+                        className="text-[10px] font-mono font-bold bg-white text-[#13102b] border border-[#13102b] px-2 py-0.5 rounded-md shadow-sm"
+                      >
+                        #{t}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </Card>
+          ))}
+        </div>
+      )}
+
+      {/* MODAL: PORTFOLIO FORM (ADD / EDIT) */}
+      <PortfolioFormModal
+        key={editingPortfolio?.id || (isPortfolioModalOpen ? "open" : "closed")}
+        isOpen={isPortfolioModalOpen}
+        editingPortfolio={editingPortfolio}
+        onClose={() => setIsPortfolioModalOpen(false)}
+        onSave={handleSavePortfolio}
+      />
+
+      {/* MODAL: CONFIRM DELETE PORTFOLIO */}
+      {portfolioToDelete && (
+        <div className="fixed inset-0 z-50 bg-[#13102b]/60 backdrop-blur-xs flex items-center justify-center p-4 font-sans">
+          <div className="bg-white border-3 border-[#13102b] rounded-2xl max-w-md w-full p-6 shadow-[8px_8px_0px_0px_#13102b] space-y-4 animate-in fade-in zoom-in-95">
+            <h3 className="font-heading font-black text-xl text-[#13102b]">
+              Konfirmasi Hapus Portofolio
+            </h3>
+            <p className="text-slate-600 text-xs font-medium">
+              Apakah Anda yakin ingin menghapus portofolio <strong>{portfolioToDelete.title}</strong>?
+            </p>
+            <div className="flex items-center justify-end gap-3 border-t-2 border-slate-200 pt-4">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setPortfolioToDelete(null)}
+              >
+                Batal
+              </Button>
+              <Button
+                variant="primary"
+                size="sm"
+                onClick={handleDeletePortfolio}
+                className="!bg-rose-600 hover:!bg-rose-700"
+              >
+                Hapus
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
