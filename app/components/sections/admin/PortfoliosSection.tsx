@@ -25,6 +25,7 @@ import {
 } from "react-icons/tb";
 import Button from "@/app/components/ui/Button";
 import Card from "@/app/components/ui/Card";
+import Badge from "@/app/components/ui/Badge";
 import EmptyState from "@/app/components/ui/EmptyState";
 import { CardGridSkeleton } from "@/app/components/ui/Skeleton";
 import PortfolioFormModal from "@/app/components/modals/admin/PortfolioFormModal";
@@ -154,17 +155,17 @@ export default function PortfoliosSection({
         />
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {portfolios.map((pf) => (
+          {portfolios.map((pf, idx) => (
             <Card
               key={pf.id}
               variant="white"
-              shadowVariant="purple"
+              shadowVariant={idx % 2 === 0 ? "purple" : "dark"}
               className="flex flex-col justify-between overflow-hidden"
             >
-              <div className="space-y-4">
+              <div>
                 {/* Preview Image Thumbnail if available */}
                 {pf.imageUrl && (
-                  <div className="-mx-6 -mt-6 mb-2 border-b-2 border-[#13102b] overflow-hidden bg-slate-100 relative h-44">
+                  <div className="-mx-6 -mt-6 sm:-mx-8 sm:-mt-8 mb-6 border-b-3 border-[#13102b] overflow-hidden bg-slate-100 relative h-48">
                     <img
                       src={pf.imageUrl}
                       alt={pf.title}
@@ -174,18 +175,20 @@ export default function PortfoliosSection({
                       href={pf.imageUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="absolute top-2 right-2 p-1.5 bg-white/90 hover:bg-white text-[#13102b] rounded-lg border border-[#13102b] shadow-sm"
+                      className="absolute top-3 right-3 p-1.5 bg-white/90 hover:bg-white text-[#13102b] rounded-lg border-2 border-[#13102b] shadow-[2px_2px_0px_0px_#13102b]"
                       title="Buka Gambar Cloudinary"
                     >
-                      <TbExternalLink className="w-4 h-4" />
+                      <TbExternalLink className="w-4 h-4 stroke-[2.5]" />
                     </a>
                   </div>
                 )}
 
-                <div className="flex items-center justify-between border-b-2 border-slate-200 pb-3">
-                  <span className="text-[11px] font-mono font-bold bg-[#13102b] text-white px-2.5 py-0.5 rounded">
+                {/* Top Header: Badge & Actions */}
+                <div className="flex items-center justify-between mb-4">
+                  <Badge variant="soft" size="sm">
                     {pf.category}
-                  </span>
+                  </Badge>
+
                   <div className="flex items-center gap-1">
                     <button
                       onClick={() => openPortfolioModal(pf)}
@@ -204,31 +207,28 @@ export default function PortfoliosSection({
                   </div>
                 </div>
 
-                <div>
-                  <h3 className="font-heading font-black text-xl text-[#13102b]">
-                    {pf.title}
-                  </h3>
-                  {pf.companyName && (
-                    <div className="flex items-center gap-1 text-xs font-mono font-bold text-[#7b42f5] mt-0.5">
-                      <TbBuildingStore className="w-3.5 h-3.5" />
-                      <span>{pf.companyName}</span>
-                    </div>
-                  )}
-                </div>
+                <h3 className="font-heading font-black text-2xl text-[#13102b] mb-1">
+                  {pf.title}
+                </h3>
 
-                <p className="text-xs text-slate-700 font-sans font-medium leading-relaxed">
+                {pf.companyName && (
+                  <div className="flex items-center gap-1.5 text-xs font-sans font-bold text-[#7b42f5] mb-3">
+                    <TbBuildingStore className="w-4 h-4" />
+                    <span>{pf.companyName}</span>
+                  </div>
+                )}
+
+                <p className="text-slate-700 text-sm leading-relaxed mb-6 font-sans font-medium">
                   {pf.description}
                 </p>
 
+                {/* Tech Stack Badges using Badge Component */}
                 {Array.isArray(pf.tags) && pf.tags.length > 0 && (
-                  <div className="flex flex-wrap gap-1.5 pt-2">
-                    {pf.tags.map((t, idx) => (
-                      <span
-                        key={idx}
-                        className="text-[10px] font-mono font-bold bg-white text-[#13102b] border border-[#13102b] px-2 py-0.5 rounded-md shadow-sm"
-                      >
-                        #{t}
-                      </span>
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {pf.tags.map((t, tIdx) => (
+                      <Badge key={tIdx} variant="white" size="sm">
+                        {t}
+                      </Badge>
                     ))}
                   </div>
                 )}

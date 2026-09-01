@@ -12,6 +12,8 @@ import {
 } from "react-icons/tb";
 import SectionHeader from "../../ui/SectionHeader";
 import Button from "../../ui/Button";
+import Card from "../../ui/Card";
+import Badge from "../../ui/Badge";
 import EmptyState from "../../ui/EmptyState";
 import { CardGridSkeleton } from "../../ui/Skeleton";
 
@@ -25,8 +27,6 @@ interface ProjectItem {
   metric?: string;
   metricSub?: string;
   description: string;
-  color?: string;
-  shadow?: string;
 }
 
 export default function PortfolioSection() {
@@ -40,7 +40,7 @@ export default function PortfolioSection() {
       q,
       (snapshot) => {
         if (!snapshot.empty) {
-          const dynamicList: ProjectItem[] = snapshot.docs.map((docSnap, idx) => {
+          const dynamicList: ProjectItem[] = snapshot.docs.map((docSnap) => {
             const data = docSnap.data();
             return {
               id: docSnap.id,
@@ -52,11 +52,6 @@ export default function PortfolioSection() {
               metric: data.metric || "",
               metricSub: data.metricSub || "",
               description: data.description || "",
-              color: "bg-[#7b42f5]",
-              shadow:
-                idx % 2 === 0
-                  ? "shadow-[6px_6px_0px_0px_#7b42f5]"
-                  : "shadow-[6px_6px_0px_0px_#13102b]",
             };
           });
           setProjects(dynamicList);
@@ -102,7 +97,7 @@ export default function PortfolioSection() {
             actionIcon={TbArrowUpRight}
           />
         ) : (
-          /* Project Cards Grid */
+          /* Project Cards Grid using Card component */
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {projects.map((project, idx) => (
               <motion.div
@@ -111,90 +106,86 @@ export default function PortfolioSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: idx * 0.15 }}
-                className={`bg-white border-3 border-[#13102b] rounded-2xl p-6 sm:p-8 ${
-                  project.shadow || "shadow-[6px_6px_0px_0px_#7b42f5]"
-                } flex flex-col justify-between hover:-translate-y-1 transition-all group overflow-hidden`}
+                className="hover:-translate-y-1 transition-all group flex flex-col h-full"
               >
-                <div>
-                  {/* Optional Preview Image */}
-                  {project.imageUrl && (
-                    <div className="-mx-6 -mt-6 sm:-mx-8 sm:-mt-8 mb-6 border-b-3 border-[#13102b] overflow-hidden bg-slate-100 h-48">
-                      <img
-                        src={project.imageUrl}
-                        alt={project.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-                  )}
+                <Card
+                  variant="white"
+                  shadowVariant={idx % 2 === 0 ? "purple" : "dark"}
+                  className="flex flex-col justify-between h-full overflow-hidden"
+                >
+                  <div>
+                    {/* Optional Preview Image */}
+                    {project.imageUrl && (
+                      <div className="-mx-6 -mt-6 sm:-mx-8 sm:-mt-8 mb-6 border-b-3 border-[#13102b] overflow-hidden bg-slate-100 h-48">
+                        <img
+                          src={project.imageUrl}
+                          alt={project.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                    )}
 
-                  {/* Category & Badge */}
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-[11px] font-mono font-extrabold text-purple-900 uppercase tracking-wider bg-[#f3f0ff] px-3 py-1 border-2 border-[#13102b] rounded-lg">
-                      {project.category}
-                    </span>
-                    <div
-                      className={`w-3.5 h-3.5 rounded-full ${
-                        project.color || "bg-[#7b42f5]"
-                      } border-2 border-[#13102b]`}
-                    />
+                    {/* Category Badge Component */}
+                    <div className="mb-4">
+                      <Badge variant="soft" size="sm">
+                        {project.category}
+                      </Badge>
+                    </div>
+
+                    <h3 className="font-heading font-black text-2xl text-[#13102b] group-hover:text-[#7b42f5] transition-colors mb-1">
+                      {project.title}
+                    </h3>
+
+                    {project.companyName && (
+                      <div className="flex items-center gap-1.5 text-xs font-sans font-bold text-[#7b42f5] mb-3">
+                        <TbBuildingStore className="w-4 h-4" />
+                        <span>{project.companyName}</span>
+                      </div>
+                    )}
+
+                    <p className="text-slate-700 text-sm leading-relaxed mb-6 font-sans font-medium">
+                      {project.description}
+                    </p>
+
+                    {/* Metric Highlight Box */}
+                    {project.metric && (
+                      <div className="p-4 bg-[#f3f0ff] border-2 border-[#13102b] rounded-xl shadow-[3px_3px_0px_0px_#7b42f5] mb-6">
+                        <div className="flex items-center gap-2 text-[#7b42f5] font-heading font-black text-lg">
+                          <TbTrendingUp className="w-5 h-5 stroke-[2.5]" />
+                          <span>{project.metric}</span>
+                        </div>
+                        {project.metricSub && (
+                          <span className="text-xs font-sans font-medium text-slate-600 mt-0.5 block">
+                            {project.metricSub}
+                          </span>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Tech Stack Badges using Badge Component */}
+                    {Array.isArray(project.tags) && project.tags.length > 0 && (
+                      <div className="flex flex-wrap gap-2 mb-8">
+                        {project.tags.map((tag, tIdx) => (
+                          <Badge key={tIdx} variant="white" size="sm">
+                            {tag}
+                          </Badge>
+                        ))}
+                      </div>
+                    )}
                   </div>
 
-                  <h3 className="font-heading font-black text-2xl text-[#13102b] group-hover:text-[#7b42f5] transition-colors mb-1">
-                    {project.title}
-                  </h3>
-
-                  {project.companyName && (
-                    <div className="flex items-center gap-1.5 text-xs font-mono font-bold text-[#7b42f5] mb-3">
-                      <TbBuildingStore className="w-4 h-4" />
-                      <span>{project.companyName}</span>
-                    </div>
-                  )}
-
-                  <p className="text-slate-700 text-sm leading-relaxed mb-6 font-sans font-medium">
-                    {project.description}
-                  </p>
-
-                  {/* Metric Highlight Box */}
-                  {project.metric && (
-                    <div className="p-4 bg-[#f3f0ff] border-2 border-[#13102b] rounded-xl shadow-[3px_3px_0px_0px_#7b42f5] mb-6">
-                      <div className="flex items-center gap-2 text-[#7b42f5] font-heading font-black text-lg">
-                        <TbTrendingUp className="w-5 h-5 stroke-[2.5]" />
-                        <span>{project.metric}</span>
-                      </div>
-                      {project.metricSub && (
-                        <span className="text-xs font-mono font-bold text-slate-700 mt-0.5 block">
-                          {project.metricSub}
-                        </span>
-                      )}
-                    </div>
-                  )}
-
-                  {/* Tag Pills */}
-                  {Array.isArray(project.tags) && project.tags.length > 0 && (
-                    <div className="flex flex-wrap gap-2 mb-8">
-                      {project.tags.map((tag, tIdx) => (
-                        <span
-                          key={tIdx}
-                          className="text-xs font-mono font-bold text-slate-800 bg-[#f9f8fd] px-2.5 py-1 rounded-md border border-slate-300"
-                        >
-                          #{tag}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-                {/* Action Button UI Component */}
-                <Button
-                  variant="primary"
-                  href={whatsappUrl(project.title)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full justify-between"
-                >
-                  <span>Diskusi Proyek Serupa</span>
-                  <TbArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform stroke-[2.5]" />
-                </Button>
+                  {/* Action Button UI Component */}
+                  <Button
+                    variant="primary"
+                    href={whatsappUrl(project.title)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full justify-between mt-auto"
+                  >
+                    <span>Diskusi Proyek Serupa</span>
+                    <TbArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform stroke-[2.5]" />
+                  </Button>
+                </Card>
               </motion.div>
             ))}
           </div>
