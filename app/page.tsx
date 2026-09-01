@@ -3,7 +3,6 @@ import HeroSection from "./landing-page/HeroSection";
 import ServicesSection from "./landing-page/ServicesSection";
 import ProcessSection from "./landing-page/ProcessSection";
 import PortfolioSection from "./landing-page/PortfolioSection";
-import EstimatorSection from "./landing-page/EstimatorSection";
 import FaqSection from "./landing-page/FaqSection";
 import CtaSection from "./landing-page/CtaSection";
 import Footer from "./components/Footer";
@@ -17,7 +16,6 @@ export default function Home() {
       <ServicesSection />
       <ProcessSection />
       <PortfolioSection />
-      <EstimatorSection />
       <FaqSection />
       <CtaSection />
       <Footer />

@@ -2,15 +2,11 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { TbPlus, TbMinus, TbHelpCircle, TbBrandWhatsapp } from "react-icons/tb";
+import { TbPlus, TbMinus } from "react-icons/tb";
 import SectionHeader from "../components/ui/SectionHeader";
-import Button from "../components/ui/Button";
 
 export default function FaqSection() {
   const [openIdx, setOpenIdx] = useState<number | null>(0);
-
-  const whatsappUrl =
-    "https://wa.me/62895339023888?text=Halo%20Yotsulabs!%20Saya%20memiliki%20pertanyaan%20mengenai%20layanan%20studio.";
 
   const faqs = [
     {
@@ -40,13 +36,13 @@ export default function FaqSection() {
   };
 
   return (
-    <section id="faq" className="py-24 bg-transparent relative border-t-3 border-[#13102b]">
+    <section id="faq" className="py-24 bg-transparent relative">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         {/* Section Header UI Component */}
         <SectionHeader
-          badgeText="Tanya Jawab"
-          badgeIcon={TbHelpCircle}
+          // badgeText="Tanya Jawab"
+          // badgeIcon={TbHelpCircle}
           title="Pertanyaan yang Sering Diajukan Klien"
           description="Temukan jawaban atas pertanyaan umum seputar proses kerja, garansi, dan teknis kolaborasi bersama Yotsulabs."
         />
@@ -58,11 +54,10 @@ export default function FaqSection() {
             return (
               <div
                 key={idx}
-                className={`bg-white border-3 border-[#13102b] rounded-2xl transition-all ${
-                  isOpen
-                    ? "shadow-[6px_6px_0px_0px_#7b42f5]"
-                    : "shadow-[4px_4px_0px_0px_#13102b] hover:shadow-[5px_5px_0px_0px_#13102b]"
-                }`}
+                className={`bg-white border-3 border-[#13102b] rounded-2xl transition-all ${isOpen
+                  ? "shadow-[6px_6px_0px_0px_#7b42f5]"
+                  : "shadow-[4px_4px_0px_0px_#13102b] hover:shadow-[5px_5px_0px_0px_#13102b]"
+                  }`}
               >
                 <button
                   onClick={() => toggleFaq(idx)}
@@ -70,9 +65,8 @@ export default function FaqSection() {
                 >
                   <span>{faq.q}</span>
                   <div
-                    className={`w-8 h-8 rounded-lg border-2 border-[#13102b] flex items-center justify-center shrink-0 transition-all ${
-                      isOpen ? "bg-[#7b42f5] text-white rotate-180" : "bg-[#f3f0ff] text-[#13102b]"
-                    }`}
+                    className={`w-8 h-8 rounded-lg border-2 border-[#13102b] flex items-center justify-center shrink-0 transition-all ${isOpen ? "bg-[#7b42f5] text-white rotate-180" : "bg-[#f3f0ff] text-[#13102b]"
+                      }`}
                   >
                     {isOpen ? <TbMinus className="w-4 h-4 stroke-[3]" /> : <TbPlus className="w-4 h-4 stroke-[3]" />}
                   </div>
@@ -97,26 +91,6 @@ export default function FaqSection() {
             );
           })}
         </div>
-
-        {/* Still Have Questions Box */}
-        <div className="mt-12 text-center p-8 bg-[#f3f0ff] border-3 border-[#13102b] rounded-2xl shadow-[6px_6px_0px_0px_#13102b] flex flex-col sm:flex-row items-center justify-between gap-6">
-          <div className="text-left">
-            <h3 className="font-heading font-black text-xl text-[#13102b]">Punya pertanyaan khusus lainnya?</h3>
-            <p className="text-slate-700 text-sm font-sans font-medium mt-1">Tim Yotsulabs siap menjawab pertanyaan Anda secara langsung.</p>
-          </div>
-
-          <Button
-            variant="primary"
-            href={whatsappUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="shrink-0"
-          >
-            <TbBrandWhatsapp className="w-5 h-5" />
-            <span>Tanyakan via WhatsApp</span>
-          </Button>
-        </div>
-
       </div>
     </section>
   );

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import { motion, AnimatePresence } from "motion/react";
 import { TbCode, TbShoppingCart, TbPalette, TbStack2, TbSparkles, TbSpeakerphone, TbTarget, TbCheck, TbArrowUpRight } from "react-icons/tb";
 import SectionHeader from "../components/ui/SectionHeader";
@@ -124,42 +123,11 @@ export default function ServicesSection() {
     activeTab === "all" ? services : services.filter((s) => s.category === activeTab);
 
   return (
-    <section id="layanan" className="py-24 bg-transparent relative border-t-3 border-[#13102b] overflow-hidden">
-      
-      {/* Floating Decorative Assets */}
-      <motion.div
-        animate={{ y: [0, -6, 0], rotate: [-6, 6, -6] }}
-        transition={{ repeat: Infinity, duration: 4.2, ease: "easeInOut" }}
-        className="hidden lg:block absolute top-16 left-8 z-0 pointer-events-none opacity-80"
-      >
-        <Image
-          src="/decorations/syntax.png"
-          alt="Syntax Code Bracket"
-          width={64}
-          height={64}
-          className="w-14 h-14 object-contain"
-        />
-      </motion.div>
-
-      <motion.div
-        animate={{ y: [0, 8, 0], rotate: [5, -5, 5] }}
-        transition={{ repeat: Infinity, duration: 4.8, ease: "easeInOut" }}
-        className="hidden lg:block absolute top-20 right-10 z-0 pointer-events-none opacity-85"
-      >
-        <Image
-          src="/decorations/approved.png"
-          alt="Approved Stamp Badge"
-          width={72}
-          height={72}
-          className="w-16 h-16 object-contain"
-        />
-      </motion.div>
-
+    <section id="layanan" className="py-24 bg-transparent relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
+
         {/* Section Header UI Component */}
         <SectionHeader
-          badgeText="Solusi Komprehensif"
           badgeIcon={TbSparkles}
           title="Layanan Digital Terbaik untuk Mengakselerasi Bisnis Anda"
           description="Kami menggabungkan tiga pilar utama: Technology, Creative, dan Digital Marketing untuk memberikan ekosistem solusi utuh."
@@ -175,11 +143,10 @@ export default function ServicesSection() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`px-4 py-2 rounded-xl font-heading font-extrabold text-sm transition-all border-2 ${
-                  activeTab === tab.id
-                    ? "bg-[#7b42f5] text-white border-[#13102b] shadow-[2px_2px_0px_0px_#13102b]"
-                    : "bg-transparent text-slate-700 border-transparent hover:text-[#13102b] hover:bg-[#f3f0ff]"
-                }`}
+                className={`px-4 py-2 rounded-xl font-heading font-extrabold text-sm transition-all border-2 ${activeTab === tab.id
+                  ? "bg-[#7b42f5] text-white border-[#13102b] shadow-[2px_2px_0px_0px_#13102b]"
+                  : "bg-transparent text-slate-700 border-transparent hover:text-[#13102b] hover:bg-[#f3f0ff]"
+                  }`}
               >
                 {tab.label}
               </button>
