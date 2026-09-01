@@ -4,18 +4,13 @@ import React, { useState, useEffect } from "react";
 import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { motion } from "motion/react";
-import {
-  TbCode,
-  TbPalette,
-  TbTarget,
-  TbCheck,
-  TbArrowRight,
-} from "react-icons/tb";
+import { TbCheck, TbArrowRight } from "react-icons/tb";
 import SectionHeader from "../../ui/SectionHeader";
 import Button from "../../ui/Button";
 import Card from "../../ui/Card";
 import EmptyState from "../../ui/EmptyState";
 import { CardGridSkeleton } from "../../ui/Skeleton";
+import { SERVICE_PILLAR_TABS } from "@/lib/siteData";
 
 interface ServiceItem {
   id: string;
@@ -95,16 +90,12 @@ export default function ServicesSection() {
         {/* Section Header UI Component */}
         <SectionHeader
           title="Ekosistem Solusi Digital Terintegrasi"
-          description="Pilih salah satu dari 3 pilar layanan utama Yotsulabs atau gabungkan ketiganya untuk akselerasi pertumbuhan bisnis Anda secara menyeluruh."
+          description="Pilih 3 solusi utama Yotsulabs untuk membangun dan mengembangkan bisnis Anda secara menyeluruh."
         />
 
         {/* Pillar Filter Tabs */}
         <div className="flex flex-wrap items-center justify-center gap-3 mb-16">
-          {[
-            { id: "tech", label: "Technology", icon: TbCode },
-            { id: "creative", label: "Creative", icon: TbPalette },
-            { id: "marketing", label: "Digital Marketing", icon: TbTarget },
-          ].map((tab) => {
+          {SERVICE_PILLAR_TABS.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
             return (

@@ -80,7 +80,7 @@ export default function PortfolioSection() {
         {/* Section Header UI Component */}
         <SectionHeader
           title="Proyek Pilihan yang Menghasilkan Dampak Bisnis"
-          description="Berikut adalah beberapa gambaran bagaimana pendekatan Technology, Creative, dan Digital Marketing Yotsulabs membantu klien mencapai hasil nyata."
+          description="Lihat bagaimana solusi Digital dari Yotsulabs diterapkan untuk membantu bisnis berkembang dan mencapai hasil yang nyata."
         />
 
         {isLoading ? (

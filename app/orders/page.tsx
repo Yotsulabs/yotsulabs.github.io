@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import {
   TbBrandWhatsapp,
   TbArrowRight,
-  TbShieldCheck,
   TbUser,
   TbBuilding,
   TbPhone,
@@ -397,14 +396,6 @@ export default function OrderPage() {
                     </span>
                   </div>
                 </div>
-              </div>
-
-              {/* Security info */}
-              <div className="flex items-center gap-2 text-xs font-semibold text-white/90 border-t border-white/20 pt-4">
-                <TbShieldCheck className="w-5 h-5 shrink-0 stroke-[2.5]" />
-                <span>
-                  Konsultasi gratis tanpa biaya tersembunyi. Tim Yotsulabs merespons dalam 1x24 jam.
-                </span>
               </div>
 
               {/* Desktop Submit Button */}
