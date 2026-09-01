@@ -7,6 +7,7 @@ import AdminHeader from "../components/sections/admin/AdminHeader";
 import OrdersSection from "../components/sections/admin/OrdersSection";
 import PortfoliosSection from "../components/sections/admin/PortfoliosSection";
 import ServicesSection from "../components/sections/admin/ServicesSection";
+import { Skeleton, TableSkeleton } from "../components/ui/Skeleton";
 
 const emptySubscribe = () => () => { };
 
@@ -61,12 +62,25 @@ export default function AdminDashboardPage() {
     router.push("/admin/login");
   };
 
-  // Render loading spinner until mounted & authenticated on client
+  // Render Skeleton Loader until mounted & authenticated on client
   if (!isMounted || isAuthenticated === null || !isAuthenticated) {
     return (
-      <div className="min-h-screen bg-[#f9f8fd] flex items-center justify-center font-sans">
-        <div className="w-8 h-8 rounded-full border-4 border-[#7b42f5] border-t-transparent animate-spin" />
-      </div>
+      <main className="min-h-screen bg-grid-pattern text-[#13102b] flex flex-col font-sans">
+        <section className="py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full flex-grow space-y-6">
+          <div className="bg-white border-3 border-[#13102b] rounded-2xl p-6 shadow-[6px_6px_0px_0px_#13102b] space-y-4">
+            <div className="flex items-center justify-between">
+              <Skeleton className="h-8 w-48" />
+              <Skeleton className="h-10 w-28 rounded-xl" />
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+              <Skeleton className="h-20 w-full" />
+              <Skeleton className="h-20 w-full" />
+              <Skeleton className="h-20 w-full" />
+            </div>
+          </div>
+          <TableSkeleton rows={4} />
+        </section>
+      </main>
     );
   }
 

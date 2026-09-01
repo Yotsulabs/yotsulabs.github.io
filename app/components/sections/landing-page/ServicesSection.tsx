@@ -14,6 +14,7 @@ import {
 import SectionHeader from "../../ui/SectionHeader";
 import Button from "../../ui/Button";
 import EmptyState from "../../ui/EmptyState";
+import { CardGridSkeleton } from "../../ui/Skeleton";
 
 interface ServiceItem {
   id: string;
@@ -66,21 +67,13 @@ export default function ServicesSection() {
             let features: string[] = [];
             if (Array.isArray(data.items) && data.items.length > 0) {
               features = data.items
-                .map((it: { title?: string; desc?: string }) =>
-                  it.title ? `${it.title}${it.desc ? ` - ${it.desc}` : ""}` : null
-                )
+                .map((it: { title?: string }) => it.title || null)
                 .filter(Boolean) as string[];
             } else {
               features = [
-                data.item1Title
-                  ? `${data.item1Title}${data.item1Desc ? ` - ${data.item1Desc}` : ""}`
-                  : null,
-                data.item2Title
-                  ? `${data.item2Title}${data.item2Desc ? ` - ${data.item2Desc}` : ""}`
-                  : null,
-                data.item3Title
-                  ? `${data.item3Title}${data.item3Desc ? ` - ${data.item3Desc}` : ""}`
-                  : null,
+                data.item1Title || null,
+                data.item2Title || null,
+                data.item3Title || null,
               ].filter(Boolean) as string[];
             }
 
@@ -159,12 +152,7 @@ export default function ServicesSection() {
         </div>
 
         {isLoading ? (
-          <div className="bg-white border-3 border-[#13102b] rounded-2xl p-12 text-center shadow-[6px_6px_0px_0px_#13102b] max-w-xl mx-auto font-sans">
-            <div className="w-8 h-8 rounded-full border-4 border-[#7b42f5] border-t-transparent animate-spin mx-auto mb-3" />
-            <p className="text-slate-600 font-bold text-sm">
-              Memuat data...
-            </p>
-          </div>
+          <CardGridSkeleton count={3} columns="grid-cols-1 md:grid-cols-3" />
         ) : filteredServices.length === 0 ? (
           /* Reusable EmptyState Component */
           <EmptyState

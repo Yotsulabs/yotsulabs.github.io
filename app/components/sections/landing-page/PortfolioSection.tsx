@@ -13,6 +13,7 @@ import {
 import SectionHeader from "../../ui/SectionHeader";
 import Button from "../../ui/Button";
 import EmptyState from "../../ui/EmptyState";
+import { CardGridSkeleton } from "../../ui/Skeleton";
 
 interface ProjectItem {
   id?: string;
@@ -88,12 +89,7 @@ export default function PortfolioSection() {
         />
 
         {isLoading ? (
-          <div className="bg-white border-3 border-[#13102b] rounded-2xl p-12 text-center shadow-[6px_6px_0px_0px_#13102b] max-w-xl mx-auto font-sans">
-            <div className="w-8 h-8 rounded-full border-4 border-[#7b42f5] border-t-transparent animate-spin mx-auto mb-3" />
-            <p className="text-slate-600 font-bold text-sm">
-              Memuat portofolio proyek...
-            </p>
-          </div>
+          <CardGridSkeleton count={3} columns="grid-cols-1 md:grid-cols-3" hasImage />
         ) : projects.length === 0 ? (
           /* Reusable EmptyState Component */
           <EmptyState
