@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "primary" | "secondary" | "outline" | "ghost" | "icon";
@@ -47,6 +48,13 @@ export default function Button({
   const combinedClasses = `${baseClasses} ${sizeClasses[size]} ${variantClasses[variant]} ${className}`;
 
   if (href) {
+    if (href.startsWith("/")) {
+      return (
+        <Link href={href} className={combinedClasses}>
+          {children}
+        </Link>
+      );
+    }
     return (
       <a href={href} target={target} rel={rel} className={combinedClasses}>
         {children}

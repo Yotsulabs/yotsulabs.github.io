@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import {
   TbBrandWhatsapp,
   TbBrandInstagram,
@@ -49,14 +50,14 @@ export default function Footer() {
 
           {/* Brand Info */}
           <div className="md:col-span-5 space-y-4">
-            <a href="#" className="inline-flex items-center gap-2.5 h-10 px-3.5 rounded-xl bg-white border-2 border-[#13102b] shadow-[3px_3px_0px_0px_#7b42f5]">
+            <Link href="/" className="inline-flex items-center gap-2.5 h-10 px-3.5 rounded-xl bg-white border-2 border-[#13102b] shadow-[3px_3px_0px_0px_#7b42f5]">
               <div className="w-6 h-6 rounded-md bg-[#7b42f5] border-2 border-[#13102b] flex items-center justify-center font-extrabold text-white font-heading text-xs shadow-sm">
                 Y
               </div>
               <span className="font-heading font-black text-lg text-[#13102b]">
                 Yotsulabs<span className="text-[#7b42f5]">.</span>
               </span>
-            </a>
+            </Link>
 
             <p className="text-slate-700 text-sm leading-relaxed max-w-md font-sans font-medium">
               Digital studio yang membantu UMKM, bisnis, dan organisasi membangun serta mengembangkan kebutuhan digital mereka dengan pendekatan Technology, Creative, dan Digital Marketing.
@@ -70,19 +71,22 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2 text-sm font-semibold font-sans">
               <li>
-                <a href="#layanan" className="text-slate-700 hover:text-[#7b42f5] transition-colors">Layanan Utama</a>
+                <Link href="/#layanan" className="text-slate-700 hover:text-[#7b42f5] transition-colors">Layanan Utama</Link>
               </li>
               <li>
-                <a href="#proses" className="text-slate-700 hover:text-[#7b42f5] transition-colors">Alur Proses Kerja</a>
+                <Link href="/#proses" className="text-slate-700 hover:text-[#7b42f5] transition-colors">Alur Proses Kerja</Link>
               </li>
               <li>
-                <a href="#portofolio" className="text-slate-700 hover:text-[#7b42f5] transition-colors">Portofolio Pilihan</a>
+                <Link href="/#portofolio" className="text-slate-700 hover:text-[#7b42f5] transition-colors">Portofolio Pilihan</Link>
               </li>
               <li>
-                <a href="#estimator" className="text-slate-700 hover:text-[#7b42f5] transition-colors">Simulasi Estimator</a>
+                <Link href="/#estimator" className="text-slate-700 hover:text-[#7b42f5] transition-colors">Simulasi Estimator</Link>
               </li>
               <li>
-                <a href="#faq" className="text-slate-700 hover:text-[#7b42f5] transition-colors">FAQ & Tanya Jawab</a>
+                <Link href="/order" className="text-slate-700 hover:text-[#7b42f5] font-bold transition-colors">Form Pemesanan / Order</Link>
+              </li>
+              <li>
+                <Link href="/#faq" className="text-slate-700 hover:text-[#7b42f5] transition-colors">FAQ & Tanya Jawab</Link>
               </li>
             </ul>
           </div>

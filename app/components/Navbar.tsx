@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import {
   TbBrandWhatsapp,
   TbMenu2,
@@ -44,31 +45,31 @@ export default function Navbar() {
     {
       name: "Layanan Utama",
       sub: "Technology, Creative & Marketing",
-      href: "#layanan",
+      href: "/#layanan",
       icon: TbCode,
     },
     {
       name: "Proses Kerja",
       sub: "4 Langkah Solutif Problem-First",
-      href: "#proses",
+      href: "/#proses",
       icon: TbCompass,
     },
     {
       name: "Portofolio",
       sub: "Studi Kasus & Hasil Nyata Klien",
-      href: "#portofolio",
+      href: "/#portofolio",
       icon: TbBriefcase,
     },
     {
       name: "Simulasi Estimator",
       sub: "Hitung Waktu & Dapatkan Brief WA",
-      href: "#estimator",
+      href: "/#estimator",
       icon: TbCalculator,
     },
     {
       name: "FAQ & Pertanyaan",
       sub: "Jawaban Pertanyaan Umum Klien",
-      href: "#faq",
+      href: "/#faq",
       icon: TbHelpCircle,
     },
   ];
@@ -85,8 +86,8 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
             {/* Logo Button */}
-            <a
-              href="#"
+            <Link
+              href="/"
               className="group flex items-center gap-2.5 h-10 px-3.5 rounded-xl bg-white border-2 border-[#13102b] shadow-[3px_3px_0px_0px_#7b42f5] hover:shadow-[4px_4px_0px_0px_#13102b] transition-all"
             >
               <div className="w-6 h-6 rounded-md bg-[#7b42f5] border-2 border-[#13102b] flex items-center justify-center font-extrabold text-white font-heading text-xs shadow-sm">
@@ -95,34 +96,42 @@ export default function Navbar() {
               <span className="font-heading font-black text-lg tracking-tight text-[#13102b] group-hover:text-[#7b42f5] transition-colors">
                 Yotsulabs<span className="text-[#7b42f5]">.</span>
               </span>
-            </a>
+            </Link>
 
             {/* Desktop Nav Links */}
             <nav className="hidden md:flex items-center gap-1.5 h-10 bg-white border-2 border-[#13102b] px-3 py-1 rounded-xl shadow-[4px_4px_0px_0px_#13102b]">
               {navLinks.map((link) => (
-                <a
+                <Link
                   key={link.name}
                   href={link.href}
                   className="px-3.5 py-1 text-sm font-bold text-slate-700 hover:text-[#13102b] hover:bg-[#f3f0ff] rounded-lg border border-transparent hover:border-[#13102b] transition-all"
                 >
                   {link.name}
-                </a>
+                </Link>
               ))}
             </nav>
 
             {/* CTA & Mobile Toggle UI Components */}
             <div className="flex items-center gap-3">
               <Button
+                variant="secondary"
+                size="md"
+                href="/order"
+                className="hidden sm:inline-flex"
+              >
+                <span>Order Project</span>
+                <TbArrowUpRight className="w-4 h-4 stroke-[2.5]" />
+              </Button>
+              <Button
                 variant="primary"
                 size="md"
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hidden sm:inline-flex"
+                className="hidden lg:inline-flex"
               >
                 <TbBrandWhatsapp className="w-5 h-5" />
-                <span>Konsultasi Gratis</span>
-                <TbArrowUpRight className="w-4 h-4 stroke-[2.5]" />
+                <span>Konsultasi</span>
               </Button>
 
               {/* Mobile Hamburger Button */}
@@ -155,8 +164,8 @@ export default function Navbar() {
             <div className="relative z-10 space-y-6">
               {/* Drawer Top Bar Header */}
               <div className="flex items-center justify-between border-b-2 border-[#13102b] pb-4">
-                <a
-                  href="#"
+                <Link
+                  href="/"
                   onClick={() => setMobileMenuOpen(false)}
                   className="flex items-center gap-2.5 h-10 px-3.5 rounded-xl bg-white border-2 border-[#13102b] shadow-[3px_3px_0px_0px_#7b42f5]"
                 >
@@ -166,7 +175,7 @@ export default function Navbar() {
                   <span className="font-heading font-black text-lg text-[#13102b]">
                     Yotsulabs<span className="text-[#7b42f5]">.</span>
                   </span>
-                </a>
+                </Link>
 
                 {/* Close Button */}
                 <button
@@ -183,30 +192,33 @@ export default function Navbar() {
                 {navLinks.map((link, idx) => {
                   const IconComp = link.icon;
                   return (
-                    <motion.a
+                    <motion.div
                       key={link.name}
-                      href={link.href}
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: idx * 0.04 + 0.05, duration: 0.25 }}
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="group flex items-center justify-between p-3.5 bg-white border-2 border-[#13102b] rounded-xl shadow-[3px_3px_0px_0px_#7b42f5] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1px_1px_0px_0px_#13102b] transition-all"
                     >
-                      <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-lg bg-[#f3f0ff] border border-[#13102b] flex items-center justify-center text-[#7b42f5] shrink-0 group-hover:bg-[#7b42f5] group-hover:text-white transition-colors">
-                          <IconComp className="w-5 h-5 stroke-[2.5]" />
+                      <Link
+                        href={link.href}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="group flex items-center justify-between p-3.5 bg-white border-2 border-[#13102b] rounded-xl shadow-[3px_3px_0px_0px_#7b42f5] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1px_1px_0px_0px_#13102b] transition-all"
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="w-9 h-9 rounded-lg bg-[#f3f0ff] border border-[#13102b] flex items-center justify-center text-[#7b42f5] shrink-0 group-hover:bg-[#7b42f5] group-hover:text-white transition-colors">
+                            <IconComp className="w-5 h-5 stroke-[2.5]" />
+                          </div>
+                          <div>
+                            <h3 className="font-heading font-black text-sm text-[#13102b] group-hover:text-[#7b42f5] transition-colors">
+                              {link.name}
+                            </h3>
+                            <p className="text-[11px] font-sans text-slate-600 font-medium">
+                              {link.sub}
+                            </p>
+                          </div>
                         </div>
-                        <div>
-                          <h3 className="font-heading font-black text-sm text-[#13102b] group-hover:text-[#7b42f5] transition-colors">
-                            {link.name}
-                          </h3>
-                          <p className="text-[11px] font-sans text-slate-600 font-medium">
-                            {link.sub}
-                          </p>
-                        </div>
-                      </div>
-                      <TbArrowUpRight className="w-4 h-4 text-slate-400 group-hover:text-[#7b42f5] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all stroke-[2.5]" />
-                    </motion.a>
+                        <TbArrowUpRight className="w-4 h-4 text-slate-400 group-hover:text-[#7b42f5] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all stroke-[2.5]" />
+                      </Link>
+                    </motion.div>
                   );
                 })}
               </div>
