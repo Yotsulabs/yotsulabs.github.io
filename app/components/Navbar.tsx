@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {
   TbBrandWhatsapp,
   TbMenu2,
@@ -10,9 +11,7 @@ import {
   TbCode,
   TbCompass,
   TbBriefcase,
-  TbCalculator,
   TbHelpCircle,
-  TbMail,
 } from "react-icons/tb";
 import { motion, AnimatePresence } from "motion/react";
 import Button from "./ui/Button";
@@ -61,12 +60,6 @@ export default function Navbar() {
       icon: TbBriefcase,
     },
     {
-      name: "Simulasi Estimator",
-      sub: "Hitung Waktu & Dapatkan Brief WA",
-      href: "/#estimator",
-      icon: TbCalculator,
-    },
-    {
       name: "FAQ & Pertanyaan",
       sub: "Jawaban Pertanyaan Umum Klien",
       href: "/#faq",
@@ -77,29 +70,33 @@ export default function Navbar() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled
-            ? "py-3 bg-[#f9f8fd]/95 backdrop-blur-md border-b-3 border-[#13102b] shadow-sm"
-            : "py-5 bg-transparent"
-        }`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
+          ? "pt-3.5 pb-4.5 bg-[#f9f8fd]/95 backdrop-blur-md border-b-3 border-[#13102b] shadow-sm"
+          : "pt-4.5 pb-5.5 bg-transparent"
+          }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between gap-2">
+
             {/* Logo Button */}
             <Link
               href="/"
-              className="group flex items-center gap-2.5 h-10 px-3.5 rounded-xl bg-white border-2 border-[#13102b] shadow-[3px_3px_0px_0px_#7b42f5] hover:shadow-[4px_4px_0px_0px_#13102b] transition-all"
+              className="group flex items-center gap-2.5 h-10 px-3.5 rounded-xl bg-white border-2 border-[#13102b] shadow-[3px_3px_0px_0px_#7b42f5] hover:shadow-[4px_4px_0px_0px_#13102b] transition-all shrink-0"
             >
-              <div className="w-6 h-6 rounded-md bg-[#7b42f5] border-2 border-[#13102b] flex items-center justify-center font-extrabold text-white font-heading text-xs shadow-sm">
-                Y
-              </div>
-              <span className="font-heading font-black text-lg tracking-tight text-[#13102b] group-hover:text-[#7b42f5] transition-colors">
+              <Image
+                src="/icons/logo_yotsulabs.png"
+                alt="Yotsulabs Logo"
+                width={28}
+                height={28}
+                className="w-7 h-7 object-contain"
+              />
+              <span className="font-heading font-black text-lg tracking-tight text-[#13102b] group-hover:text-[#7b42f5] transition-colors whitespace-nowrap">
                 Yotsulabs<span className="text-[#7b42f5]">.</span>
               </span>
             </Link>
 
-            {/* Desktop Nav Links */}
-            <nav className="hidden md:flex items-center gap-1.5 h-10 bg-white border-2 border-[#13102b] px-3 py-1 rounded-xl shadow-[4px_4px_0px_0px_#13102b]">
+            {/* Desktop Nav Links (Visible ONLY on xl: screens 1280px+) */}
+            <nav className="hidden xl:flex items-center gap-1.5 h-10 bg-white border-2 border-[#13102b] px-3 py-1 rounded-xl shadow-[4px_4px_0px_0px_#13102b]">
               {navLinks.map((link) => (
                 <Link
                   key={link.name}
@@ -111,38 +108,43 @@ export default function Navbar() {
               ))}
             </nav>
 
-            {/* CTA & Mobile Toggle UI Components */}
-            <div className="flex items-center gap-3">
-              <Button
-                variant="secondary"
-                size="md"
-                href="/order"
-                className="hidden sm:inline-flex"
-              >
-                <span>Order Project</span>
-                <TbArrowUpRight className="w-4 h-4 stroke-[2.5]" />
-              </Button>
-              <Button
-                variant="primary"
-                size="md"
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hidden lg:inline-flex"
-              >
-                <TbBrandWhatsapp className="w-5 h-5" />
-                <span>Konsultasi</span>
-              </Button>
+            {/* CTA & Mobile Controls */}
+            <div className="flex items-center gap-3 shrink-0">
 
-              {/* Mobile Hamburger Button */}
+              {/* Desktop Both Action Buttons (Order Project + Konsultasi Gratis) - Hidden when shrinking (< xl) */}
+              <div className="hidden xl:flex items-center gap-2.5">
+                <Button
+                  variant="secondary"
+                  size="md"
+                  href="/order"
+                >
+                  <span>Order Project</span>
+                  <TbArrowUpRight className="w-4 h-4 stroke-[2.5]" />
+                </Button>
+
+                <Button
+                  variant="primary"
+                  size="md"
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <TbBrandWhatsapp className="w-5 h-5" />
+                  <span>Konsultasi Gratis</span>
+                  <TbArrowUpRight className="w-4 h-4 stroke-[2.5]" />
+                </Button>
+              </div>
+
+              {/* Mobile / Tablet Hamburger Button (Visible on screens < xl) */}
               <button
                 onClick={() => setMobileMenuOpen(true)}
-                className="md:hidden flex items-center gap-2 h-10 px-3.5 bg-white border-2 border-[#13102b] text-[#13102b] font-heading font-extrabold text-xs rounded-xl shadow-[3px_3px_0px_0px_#7b42f5] active:translate-x-[1px] active:translate-y-[1px] transition-all"
+                className="xl:hidden flex items-center gap-1.5 h-10 px-3.5 bg-white border-2 border-[#13102b] text-[#13102b] font-heading font-extrabold text-xs rounded-xl shadow-[3px_3px_0px_0px_#7b42f5] active:translate-x-[1px] active:translate-y-[1px] transition-all shrink-0"
                 aria-label="Open navigation menu"
               >
                 <TbMenu2 className="w-5 h-5 text-[#7b42f5] stroke-[2.5]" />
                 <span className="font-mono uppercase tracking-wider">MENU</span>
               </button>
+
             </div>
           </div>
         </div>
@@ -156,22 +158,26 @@ export default function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-[100] bg-[#f9f8fd] overflow-y-auto px-4 py-5 sm:px-6 flex flex-col justify-between"
+            className="fixed inset-0 z-[100] bg-[#f9f8fd] overflow-y-auto px-4 py-4 sm:px-6 flex flex-col justify-between"
           >
             {/* Background Grid Overlay */}
             <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(19,16,43,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(19,16,43,0.06)_1px,transparent_1px)] bg-[size:2.5rem_2.5rem] pointer-events-none" />
 
             <div className="relative z-10 space-y-6">
               {/* Drawer Top Bar Header */}
-              <div className="flex items-center justify-between border-b-2 border-[#13102b] pb-4">
+              <div className="flex items-center justify-between border-b-2 border-[#13102b] pt-1 pb-4.5 gap-2">
                 <Link
                   href="/"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-2.5 h-10 px-3.5 rounded-xl bg-white border-2 border-[#13102b] shadow-[3px_3px_0px_0px_#7b42f5]"
+                  className="flex items-center gap-2.5 h-10 px-3.5 rounded-xl bg-white border-2 border-[#13102b] shadow-[3px_3px_0px_0px_#7b42f5] shrink-0"
                 >
-                  <div className="w-6 h-6 rounded-md bg-[#7b42f5] border-2 border-[#13102b] flex items-center justify-center font-extrabold text-white font-heading text-xs shadow-sm">
-                    Y
-                  </div>
+                  <Image
+                    src="/icons/logo_yotsulabs.png"
+                    alt="Yotsulabs Logo"
+                    width={28}
+                    height={28}
+                    className="w-7 h-7 object-contain"
+                  />
                   <span className="font-heading font-black text-lg text-[#13102b]">
                     Yotsulabs<span className="text-[#7b42f5]">.</span>
                   </span>
@@ -180,7 +186,7 @@ export default function Navbar() {
                 {/* Close Button */}
                 <button
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-2 h-10 px-3.5 bg-white border-2 border-[#13102b] text-[#13102b] font-heading font-extrabold text-xs rounded-xl shadow-[3px_3px_0px_0px_#7b42f5] active:translate-x-[1px] active:translate-y-[1px]"
+                  className="flex items-center gap-1.5 h-10 px-3 bg-white border-2 border-[#13102b] text-[#13102b] font-heading font-extrabold text-xs rounded-xl shadow-[3px_3px_0px_0px_#7b42f5] active:translate-x-[1px] active:translate-y-[1px] shrink-0"
                 >
                   <TbX className="w-5 h-5 text-[#7b42f5] stroke-[2.5]" />
                   <span className="font-mono uppercase tracking-wider">TUTUP</span>
@@ -224,34 +230,28 @@ export default function Navbar() {
               </div>
             </div>
 
-            {/* Mobile Drawer Footer Actions */}
+            {/* Mobile Drawer Footer Actions: BOTH Buttons inside Hamburger Drawer */}
             <div className="relative z-10 mt-6 pt-5 border-t-2 border-[#13102b] space-y-3">
+              <Button
+                variant="secondary"
+                href="/order"
+                onClick={() => setMobileMenuOpen(false)}
+                className="w-full h-12 justify-center text-sm"
+              >
+                <span>Order Project</span>
+              </Button>
+
               <Button
                 variant="primary"
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-full h-12"
+                className="w-full h-12 justify-center text-sm"
               >
                 <TbBrandWhatsapp className="w-5 h-5" />
-                <span>Konsultasi WA (+62 895 3390 23888)</span>
-                <TbArrowUpRight className="w-4 h-4 stroke-[2.5]" />
+                <span>Konsultasi Gratis</span>
               </Button>
-
-              <div className="flex items-center justify-between px-3.5 py-2.5 bg-white border border-[#13102b] rounded-lg text-xs font-mono font-bold">
-                <a
-                  href="mailto:yotsulabs@gmail.com"
-                  className="flex items-center gap-1.5 text-slate-800 hover:text-[#7b42f5]"
-                >
-                  <TbMail className="w-4 h-4 text-[#7b42f5]" />
-                  <span>yotsulabs@gmail.com</span>
-                </a>
-                <div className="flex items-center gap-1.5 text-[#13102b]">
-                  <span className="w-2 h-2 rounded-full bg-[#7b42f5] animate-pulse" />
-                  <span>Accepting Projects</span>
-                </div>
-              </div>
             </div>
           </motion.div>
         )}

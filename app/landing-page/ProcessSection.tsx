@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import { motion } from "motion/react";
 import { TbSearch, TbCompass, TbCpu, TbRocket, TbChevronRight, TbCircleCheck } from "react-icons/tb";
 import SectionHeader from "../components/ui/SectionHeader";
@@ -77,49 +76,18 @@ export default function ProcessSection() {
   ];
 
   return (
-    <section id="proses" className="py-24 bg-transparent relative border-t-3 border-[#13102b] overflow-hidden">
-      
-      {/* Floating Decorative Assets */}
-      <motion.div
-        animate={{ y: [0, -8, 0], rotate: [8, -8, 8] }}
-        transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut" }}
-        className="hidden lg:block absolute top-16 left-12 z-0 pointer-events-none opacity-80"
-      >
-        <Image
-          src="/decorations/lightning.png"
-          alt="Lightning Bolt Sticker"
-          width={56}
-          height={56}
-          className="w-12 h-12 object-contain"
-        />
-      </motion.div>
-
-      <motion.div
-        animate={{ y: [0, 8, 0], scale: [1, 1.08, 1] }}
-        transition={{ repeat: Infinity, duration: 4.5, ease: "easeInOut" }}
-        className="hidden lg:block absolute bottom-12 right-8 z-0 pointer-events-none opacity-85"
-      >
-        <Image
-          src="/decorations/chart.png"
-          alt="Growth Chart Sticker"
-          width={64}
-          height={64}
-          className="w-14 h-14 object-contain"
-        />
-      </motion.div>
-
+    <section id="proses" className="py-24 bg-transparent relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
+
         {/* Section Header UI Component */}
         <SectionHeader
-          badgeText="Alur Kerja Terstruktur"
           title="4 Langkah Sederhana dari Ide Hingga Hasil Nyata"
           description="Proses kolaborasi transparan, tanpa istilah teknis yang membingungkan, berfokus penuh pada penyelesaian masalah bisnis Anda."
         />
 
         {/* Timeline Desktop Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          
+
           {/* Step Selector List */}
           <div className="lg:col-span-5 flex flex-col gap-4">
             {steps.map((step, idx) => {
@@ -128,11 +96,10 @@ export default function ProcessSection() {
                 <button
                   key={step.num}
                   onClick={() => setActiveStep(idx)}
-                  className={`text-left p-5 rounded-2xl border-3 border-[#13102b] transition-all duration-300 flex items-center justify-between ${
-                    isSelected
-                      ? `bg-white ${step.shadow} translate-x-1`
-                      : "bg-[#f9f8fd] hover:bg-white border-slate-300 opacity-80"
-                  }`}
+                  className={`text-left p-5 rounded-2xl border-3 border-[#13102b] transition-all duration-300 flex items-center justify-between ${isSelected
+                    ? `bg-white ${step.shadow} translate-x-1`
+                    : "bg-[#f9f8fd] hover:bg-white border-slate-300 opacity-80"
+                    }`}
                 >
                   <div className="flex items-center gap-4">
                     <div
@@ -150,9 +117,8 @@ export default function ProcessSection() {
                     </div>
                   </div>
                   <TbChevronRight
-                    className={`w-5 h-5 text-slate-500 transition-transform ${
-                      isSelected ? "translate-x-1 text-[#7b42f5]" : ""
-                    }`}
+                    className={`w-5 h-5 text-slate-500 transition-transform ${isSelected ? "translate-x-1 text-[#7b42f5]" : ""
+                      }`}
                   />
                 </button>
               );

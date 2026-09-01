@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Image from "next/image";
 import {
   TbBrandWhatsapp,
   TbBrandInstagram,
@@ -50,14 +50,18 @@ export default function Footer() {
 
           {/* Brand Info */}
           <div className="md:col-span-5 space-y-4">
-            <Link href="/" className="inline-flex items-center gap-2.5 h-10 px-3.5 rounded-xl bg-white border-2 border-[#13102b] shadow-[3px_3px_0px_0px_#7b42f5]">
-              <div className="w-6 h-6 rounded-md bg-[#7b42f5] border-2 border-[#13102b] flex items-center justify-center font-extrabold text-white font-heading text-xs shadow-sm">
-                Y
-              </div>
+            <a href="#" className="inline-flex items-center gap-2.5 h-10 px-3.5 rounded-xl bg-white border-2 border-[#13102b] shadow-[3px_3px_0px_0px_#7b42f5]">
+              <Image
+                src="/icons/logo_yotsulabs.png"
+                alt="Yotsulabs Logo"
+                width={28}
+                height={28}
+                className="w-7 h-7 object-contain"
+              />
               <span className="font-heading font-black text-lg text-[#13102b]">
                 Yotsulabs<span className="text-[#7b42f5]">.</span>
               </span>
-            </Link>
+            </a>
 
             <p className="text-slate-700 text-sm leading-relaxed max-w-md font-sans font-medium">
               Digital studio yang membantu UMKM, bisnis, dan organisasi membangun serta mengembangkan kebutuhan digital mereka dengan pendekatan Technology, Creative, dan Digital Marketing.
@@ -71,22 +75,19 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2 text-sm font-semibold font-sans">
               <li>
-                <Link href="/#layanan" className="text-slate-700 hover:text-[#7b42f5] transition-colors">Layanan Utama</Link>
+                <a href="#layanan" className="text-slate-700 hover:text-[#7b42f5] transition-colors">Layanan Utama</a>
               </li>
               <li>
-                <Link href="/#proses" className="text-slate-700 hover:text-[#7b42f5] transition-colors">Alur Proses Kerja</Link>
+                <a href="#proses" className="text-slate-700 hover:text-[#7b42f5] transition-colors">Alur Proses Kerja</a>
               </li>
               <li>
-                <Link href="/#portofolio" className="text-slate-700 hover:text-[#7b42f5] transition-colors">Portofolio Pilihan</Link>
+                <a href="#portofolio" className="text-slate-700 hover:text-[#7b42f5] transition-colors">Portofolio Pilihan</a>
               </li>
               <li>
-                <Link href="/#estimator" className="text-slate-700 hover:text-[#7b42f5] transition-colors">Simulasi Estimator</Link>
+                <a href="#estimator" className="text-slate-700 hover:text-[#7b42f5] transition-colors">Simulasi Estimator</a>
               </li>
               <li>
-                <Link href="/order" className="text-slate-700 hover:text-[#7b42f5] font-bold transition-colors">Form Pemesanan / Order</Link>
-              </li>
-              <li>
-                <Link href="/#faq" className="text-slate-700 hover:text-[#7b42f5] transition-colors">FAQ & Tanya Jawab</Link>
+                <a href="#faq" className="text-slate-700 hover:text-[#7b42f5] transition-colors">FAQ & Tanya Jawab</a>
               </li>
             </ul>
           </div>
@@ -99,7 +100,7 @@ export default function Footer() {
             <p className="text-slate-700 text-xs font-sans font-medium">
               Terhubung dengan kami di seluruh platform media sosial dan saluran kontak resmi:
             </p>
-            <div className="flex flex-wrap items-center gap-3 pt-1">
+            <div className="flex flex-wrap items-center gap-3.5 pt-1">
               {socialLinks.map((social) => {
                 const IconComponent = social.icon;
                 return (
@@ -111,8 +112,9 @@ export default function Footer() {
                     rel="noopener noreferrer"
                     title={social.name}
                     aria-label={social.name}
+                    className="w-14 h-14 sm:w-15 sm:h-15 rounded-2xl border-2 border-[#13102b] shadow-[4px_4px_0px_0px_#7b42f5] hover:shadow-[4px_4px_0px_0px_#13102b]"
                   >
-                    <IconComponent className="w-5 h-5 stroke-[2.2] group-hover:scale-110 transition-transform" />
+                    <IconComponent className="w-7 h-7 sm:w-8 sm:h-8 stroke-[2.3] group-hover:scale-110 transition-transform" />
                   </Button>
                 );
               })}
@@ -123,7 +125,7 @@ export default function Footer() {
 
         {/* Bottom Copyright */}
         <div className="pt-8 flex justify-center text-xs font-mono font-bold text-slate-600">
-          <p>© {new Date().getFullYear()} Yotsulabs Digital Studio. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Yotsulabs. All rights reserved.</p>
         </div>
 
       </div>

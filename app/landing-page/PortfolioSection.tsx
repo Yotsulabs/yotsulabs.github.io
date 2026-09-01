@@ -1,8 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import { motion } from "motion/react";
-import { TbTrendingUp, TbSparkles, TbArrowUpRight } from "react-icons/tb";
+import { TbTrendingUp, TbArrowUpRight } from "react-icons/tb";
 import SectionHeader from "../components/ui/SectionHeader";
 import Button from "../components/ui/Button";
 
@@ -49,29 +48,13 @@ export default function PortfolioSection() {
   ];
 
   return (
-    <section id="portofolio" className="py-24 bg-transparent relative border-t-3 border-[#13102b] overflow-hidden">
-      
-      {/* Decorative Quality Sticker */}
-      <motion.div
-        animate={{ y: [0, -8, 0], rotate: [-5, 5, -5] }}
-        transition={{ repeat: Infinity, duration: 4.6, ease: "easeInOut" }}
-        className="hidden lg:block absolute top-14 right-12 z-0 pointer-events-none opacity-85"
-      >
-        <Image
-          src="/decorations/quality.png"
-          alt="Quality Seal Sticker"
-          width={68}
-          height={68}
-          className="w-16 h-16 object-contain"
-        />
-      </motion.div>
-
+    <section id="portofolio" className="py-24 bg-transparent relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
+
         {/* Section Header UI Component */}
         <SectionHeader
-          badgeText="Studi Kasus & Hasil Nyata"
-          badgeIcon={TbSparkles}
+          // badgeText="Studi Kasus & Hasil Nyata"
+          // badgeIcon={TbSparkles}
           title="Proyek Pilihan yang Menghasilkan Dampak Bisnis"
           description="Berikut adalah beberapa gambaran bagaimana pendekatan Technology, Creative, dan Digital Marketing Yotsulabs membantu klien mencapai hasil nyata."
         />
