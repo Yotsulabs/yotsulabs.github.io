@@ -23,9 +23,8 @@ export const BIDANG_LIST: BidangItem[] = [
 
 export const JASA_BY_BIDANG: Record<BidangKey, JasaItem[]> = {
   technology: [
-    { id: "website", name: "Website", desc: "Landing page, company profile, atau e-commerce studio." },
-    { id: "business-system", name: "Business System", desc: "Sistem aplikasi internal, portal manajemen & SaaS." },
-    { id: "business-automation", name: "Business Automation", desc: "Otomasisasi alur kerja, integrasi API & bot." },
+    { id: "website", name: "Website", desc: "Landing page, company profile, atau website custom." },
+    { id: "business-system", name: "Business System", desc: "Sistem aplikasi internal, portal manajemen & SaaS." }
   ],
   creative: [
     { id: "graphic-design", name: "Graphic Design", desc: "Branding kit, logo, brosur & materi visual produk." },
@@ -33,7 +32,7 @@ export const JASA_BY_BIDANG: Record<BidangKey, JasaItem[]> = {
     { id: "illustration", name: "Illustrasi", desc: "Visual maskot, karakter, & ilustrasi digital kustom." },
   ],
   marketing: [
-    { id: "video-promosi", name: "Video Promosi", desc: "Video konten iklan, reel/tiktok promosi & motion graphic." },
+    { id: "video-promosi", name: "Video Promosi", desc: "Video konten iklan, reel/tiktok promosi." },
     { id: "konten-marketing", name: "Konten Marketing", desc: "Strategi konten media sosial, copywriting & perencanaan." },
     { id: "seo", name: "Optimasi Pencarian (SEO)", desc: "Riset kata kunci & optimasi peringkat Google." },
   ],
