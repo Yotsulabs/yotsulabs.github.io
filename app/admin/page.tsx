@@ -65,9 +65,9 @@ export default function AdminDashboardPage() {
   // Render Skeleton Loader until mounted & authenticated on client
   if (!isMounted || isAuthenticated === null || !isAuthenticated) {
     return (
-      <main className="min-h-screen bg-grid-pattern text-[#13102b] flex flex-col font-sans">
+      <main className="min-h-screen bg-grid-pattern text-brand-ink flex flex-col font-sans">
         <section className="py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full flex-grow space-y-6">
-          <div className="bg-white border-3 border-[#13102b] rounded-2xl p-6 shadow-[6px_6px_0px_0px_#13102b] space-y-4">
+          <div className="bg-white border-3 border-brand-ink rounded-2xl p-6 shadow-neo-lg space-y-4">
             <div className="flex items-center justify-between">
               <Skeleton className="h-8 w-48" />
               <Skeleton className="h-10 w-28 rounded-xl" />
@@ -85,7 +85,7 @@ export default function AdminDashboardPage() {
   }
 
   return (
-    <main className="min-h-screen bg-grid-pattern text-[#13102b] flex flex-col font-sans selection:bg-[#7b42f5] selection:text-white">
+    <main className="min-h-screen bg-grid-pattern text-brand-ink flex flex-col font-sans selection:bg-brand-purple selection:text-white">
       <section className="py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full flex-grow">
         <AdminHeader
           activeAdmin={activeAdmin}

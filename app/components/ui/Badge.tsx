@@ -59,7 +59,7 @@ export default function Badge({
   }
 
   const baseClasses =
-    "inline-flex items-center gap-1.5 font-mono font-extrabold uppercase rounded-lg border border-[#13102b]";
+    "inline-flex items-center gap-1.5 font-mono font-extrabold uppercase rounded-lg border border-brand-ink";
 
   const sizeClasses = {
     sm: "px-2.5 py-1 text-xs tracking-normal",
@@ -67,10 +67,10 @@ export default function Badge({
   };
 
   const variantClasses: Record<BadgeVariant, string> = {
-    purple: "bg-[#7b42f5] text-white shadow-[3px_3px_0px_0px_#13102b]",
-    white: "bg-white text-[#13102b] shadow-[3px_3px_0px_0px_#7b42f5]",
-    soft: "bg-[#f3f0ff] text-purple-900 shadow-none border-2 border-[#13102b]",
-    dark: "bg-[#13102b] text-white shadow-[3px_3px_0px_0px_#7b42f5]",
+    purple: "bg-brand-purple text-white shadow-neo-sm",
+    white: "bg-white text-brand-ink shadow-neo-purple",
+    soft: "bg-brand-purple-light text-purple-900 shadow-none border-2 border-brand-ink",
+    dark: "bg-brand-ink text-white shadow-neo-purple",
     pending: "bg-amber-200 text-amber-900",
     "in-progress": "bg-sky-200 text-sky-900",
     completed: "bg-emerald-200 text-emerald-900",

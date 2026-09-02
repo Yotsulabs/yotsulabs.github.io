@@ -6,17 +6,17 @@ import Button from "./components/ui/Button";
 
 export default function NotFound() {
   return (
-    <main className="min-h-screen bg-grid-pattern text-[#13102b] flex items-center justify-center p-4 font-sans selection:bg-[#7b42f5] selection:text-white">
-      <div className="bg-white border-3 border-[#13102b] rounded-3xl p-8 sm:p-12 shadow-[8px_8px_0px_0px_#13102b] text-center max-w-md w-full space-y-6 animate-in fade-in zoom-in-95 font-sans">
+    <main className="min-h-screen bg-grid-pattern text-brand-ink flex items-center justify-center p-4 font-sans selection:bg-brand-purple selection:text-white">
+      <div className="bg-white border-3 border-brand-ink rounded-3xl p-8 sm:p-12 shadow-neo-lg text-center max-w-md w-full space-y-6 animate-in fade-in zoom-in-95 font-sans">
         
         {/* Big 404 Text */}
-        <h1 className="font-heading font-black text-7xl sm:text-8xl text-[#13102b] tracking-tighter">
+        <h1 className="font-heading font-black text-7xl sm:text-8xl text-brand-ink tracking-tighter">
           404
         </h1>
 
         {/* Text Details */}
         <div className="space-y-2">
-          <h2 className="font-heading font-black text-xl sm:text-2xl text-[#13102b]">
+          <h2 className="font-heading font-black text-xl sm:text-2xl text-brand-ink">
             Halaman Tidak Ditemukan
           </h2>
           <p className="text-slate-600 text-xs sm:text-sm font-medium leading-relaxed">

@@ -27,7 +27,7 @@ export default function Textarea({
       {label && (
         <label
           htmlFor={textareaId}
-          className="block font-heading font-black text-sm text-[#13102b]"
+          className="block font-heading font-black text-sm text-brand-ink"
         >
           {label}
         </label>
@@ -37,7 +37,7 @@ export default function Textarea({
         id={textareaId}
         rows={rows}
         disabled={disabled}
-        className={`w-full bg-white text-[#13102b] placeholder:text-slate-400 text-sm font-sans font-medium rounded-xl border-2 border-[#13102b] px-3.5 py-2.5 shadow-[3px_3px_0px_0px_#13102b] focus:outline-none focus:border-[#7b42f5] focus:shadow-[3px_3px_0px_0px_#7b42f5] transition-all disabled:opacity-60 disabled:cursor-not-allowed resize-y ${
+        className={`w-full bg-white text-brand-ink placeholder:text-slate-400 text-sm font-sans font-medium rounded-xl border-2 border-brand-ink px-3.5 py-2.5 shadow-neo-sm focus:outline-none focus:border-brand-purple focus:shadow-neo-purple transition-all disabled:opacity-60 disabled:cursor-not-allowed resize-y ${
           errorText ? "border-red-500 shadow-[3px_3px_0px_0px_#ef4444]" : ""
         } ${className}`}
         {...props}

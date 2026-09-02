@@ -1,9 +1,6 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { useState, useEffect } from "react";
-import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import Image from "next/image";
 import { motion } from "motion/react";
 import {
   TbTrendingUp,
@@ -16,63 +13,19 @@ import Card from "../../ui/Card";
 import Badge from "../../ui/Badge";
 import EmptyState from "../../ui/EmptyState";
 import { CardGridSkeleton } from "../../ui/Skeleton";
-
-interface ProjectItem {
-  id?: string;
-  title: string;
-  companyName?: string;
-  category: string;
-  tags: string[];
-  imageUrl?: string;
-  metric?: string;
-  metricSub?: string;
-  description: string;
-}
+import { PortfolioDoc } from "@/types";
+import { useFirestoreCollection } from "@/hooks/useFirestoreCollection";
+import { getWhatsAppLink } from "@/lib/whatsapp";
+import { WHATSAPP_URL } from "@/lib/siteData";
 
 export default function PortfolioSection() {
-  const [projects, setProjects] = useState<ProjectItem[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  // Subscribe to dynamic portfolios collection in Firestore
-  useEffect(() => {
-    const q = query(collection(db, "portfolios"), orderBy("createdAt", "desc"));
-    const unsubscribe = onSnapshot(
-      q,
-      (snapshot) => {
-        if (!snapshot.empty) {
-          const dynamicList: ProjectItem[] = snapshot.docs.map((docSnap) => {
-            const data = docSnap.data();
-            return {
-              id: docSnap.id,
-              title: data.title || "",
-              companyName: data.companyName || "",
-              category: data.category || "Digital Studio",
-              tags: Array.isArray(data.tags) ? data.tags : [],
-              imageUrl: data.imageUrl || "",
-              metric: data.metric || "",
-              metricSub: data.metricSub || "",
-              description: data.description || "",
-            };
-          });
-          setProjects(dynamicList);
-        } else {
-          setProjects([]);
-        }
-        setIsLoading(false);
-      },
-      (err) => {
-        console.error("Firestore portfolio fetch error:", err);
-        setProjects([]);
-        setIsLoading(false);
-      }
-    );
-    return () => unsubscribe();
-  }, []);
+  const { data: projects, isLoading } = useFirestoreCollection<PortfolioDoc>("portfolios");
 
   const whatsappUrl = (projectName: string) =>
-    `https://wa.me/62895339023888?text=Halo%20Yotsulabs!%20Saya%20tertarik%20dengan%20proyek%20serupa%20${encodeURIComponent(
-      projectName
-    )}.`;
+    getWhatsAppLink(
+      "62895339023888",
+      `Halo Yotsulabs! Saya tertarik dengan proyek serupa ${projectName}.`
+    );
 
   return (
     <section id="portofolio" className="py-24 bg-transparent relative overflow-hidden">
@@ -91,7 +44,7 @@ export default function PortfolioSection() {
             title="Portofolio Proyek Sedang Diperbarui"
             description="Daftar proyek & studi kasus terbaru Yotsulabs sedang dalam proses kurasi. Hubungi tim kami langsung untuk melihat portofolio proyek lengkap!"
             actionText="Konsultasi Proyek via WA"
-            actionHref="https://wa.me/62895339023888?text=Halo%20Yotsulabs!%20Saya%20ingin%20melihat%20studi%20kasus%20%26%20portofolio%20proyek%20terbaru."
+            actionHref={WHATSAPP_URL}
             actionTarget="_blank"
             actionRel="noopener noreferrer"
             actionIcon={TbArrowUpRight}
@@ -114,13 +67,15 @@ export default function PortfolioSection() {
                   className="flex flex-col justify-between h-full overflow-hidden"
                 >
                   <div>
-                    {/* Optional Preview Image */}
+                    {/* Preview Image Thumbnail using Next.js Image */}
                     {project.imageUrl && (
-                      <div className="-mx-6 -mt-6 sm:-mx-8 sm:-mt-8 mb-6 border-b-3 border-[#13102b] overflow-hidden bg-slate-100 h-48">
-                        <img
+                      <div className="-mx-6 -mt-6 sm:-mx-8 sm:-mt-8 mb-6 border-b-3 border-brand-ink overflow-hidden bg-slate-100 relative h-48">
+                        <Image
                           src={project.imageUrl}
                           alt={project.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          className="object-cover group-hover:scale-105 transition-transform duration-300"
                         />
                       </div>
                     )}
@@ -132,12 +87,12 @@ export default function PortfolioSection() {
                       </Badge>
                     </div>
 
-                    <h3 className="font-heading font-black text-2xl text-[#13102b] group-hover:text-[#7b42f5] transition-colors mb-1">
+                    <h3 className="font-heading font-black text-2xl text-brand-ink group-hover:text-brand-purple transition-colors mb-1">
                       {project.title}
                     </h3>
 
                     {project.companyName && (
-                      <div className="flex items-center gap-1.5 text-xs font-sans font-bold text-[#7b42f5] mb-3">
+                      <div className="flex items-center gap-1.5 text-xs font-sans font-bold text-brand-purple mb-3">
                         <TbBuildingStore className="w-4 h-4" />
                         <span>{project.companyName}</span>
                       </div>
@@ -149,8 +104,8 @@ export default function PortfolioSection() {
 
                     {/* Metric Highlight Box */}
                     {project.metric && (
-                      <div className="p-4 bg-[#f3f0ff] border-2 border-[#13102b] rounded-xl shadow-[3px_3px_0px_0px_#7b42f5] mb-6">
-                        <div className="flex items-center gap-2 text-[#7b42f5] font-heading font-black text-lg">
+                      <div className="p-4 bg-brand-purple-light border-2 border-brand-ink rounded-xl shadow-neo-purple mb-6">
+                        <div className="flex items-center gap-2 text-brand-purple font-heading font-black text-lg">
                           <TbTrendingUp className="w-5 h-5 stroke-[2.5]" />
                           <span>{project.metric}</span>
                         </div>

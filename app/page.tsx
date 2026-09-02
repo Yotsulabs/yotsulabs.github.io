@@ -10,7 +10,7 @@ import ScrollToTop from "./components/ScrollToTop";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-grid-pattern text-[#13102b] flex flex-col font-sans selection:bg-[#7b42f5] selection:text-white">
+    <main className="min-h-screen bg-grid-pattern text-brand-ink flex flex-col font-sans selection:bg-brand-purple selection:text-white">
       <Navbar />
       <HeroSection />
       <ServicesSection />

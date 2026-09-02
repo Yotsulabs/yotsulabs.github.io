@@ -1,8 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import React, { useState } from "react";
 import { motion } from "motion/react";
 import { TbCheck, TbArrowRight } from "react-icons/tb";
 import SectionHeader from "../../ui/SectionHeader";
@@ -11,73 +9,46 @@ import Card from "../../ui/Card";
 import EmptyState from "../../ui/EmptyState";
 import { CardGridSkeleton } from "../../ui/Skeleton";
 import { SERVICE_PILLAR_TABS } from "@/lib/siteData";
-
-interface ServiceItem {
-  id: string;
-  category: "tech" | "creative" | "marketing";
-  title: string;
-  description: string;
-  features: string[];
-}
+import { ServiceItemDoc, ServiceItem } from "@/types";
+import { useFirestoreCollection } from "@/hooks/useFirestoreCollection";
 
 export default function ServicesSection() {
   const [activeTab, setActiveTab] = useState<"tech" | "creative" | "marketing">("tech");
-  const [services, setServices] = useState<ServiceItem[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
 
-  // Subscribe to dynamic services collection in Firestore
-  useEffect(() => {
-    const q = query(collection(db, "services"), orderBy("createdAt", "desc"));
-    const unsubscribe = onSnapshot(
-      q,
-      (snapshot) => {
-        if (!snapshot.empty) {
-          const dynamicList: ServiceItem[] = snapshot.docs.map((docSnap) => {
-            const data = docSnap.data();
-            const p = data.pillar || "technology";
-            const catMap: Record<string, "tech" | "creative" | "marketing"> = {
-              technology: "tech",
-              tech: "tech",
-              creative: "creative",
-              marketing: "marketing",
-            };
-            const category = catMap[p] || "tech";
+  const { data: rawServices, isLoading } = useFirestoreCollection<ServiceItemDoc>("services");
 
-            let features: string[] = [];
-            if (Array.isArray(data.items) && data.items.length > 0) {
-              features = data.items
-                .map((it: { title?: string }) => it.title || null)
-                .filter(Boolean) as string[];
-            } else {
-              features = [
-                data.item1Title || null,
-                data.item2Title || null,
-                data.item3Title || null,
-              ].filter(Boolean) as string[];
-            }
+  // Transform raw Firestore service docs to landing page items
+  const services: ServiceItem[] = rawServices.map((data) => {
+    const p = data.pillar || "technology";
+    const catMap: Record<string, "tech" | "creative" | "marketing"> = {
+      technology: "tech",
+      tech: "tech",
+      creative: "creative",
+      marketing: "marketing",
+    };
+    const category = catMap[p] || "tech";
 
-            return {
-              id: docSnap.id,
-              category: category,
-              title: data.title || "Layanan Kustom",
-              description: data.description || "Solusi digital sesuai kebutuhan bisnis.",
-              features: features.length > 0 ? features : ["Konsultasi Problem-First", "Desain & Implementasi"],
-            };
-          });
-          setServices(dynamicList);
-        } else {
-          setServices([]);
-        }
-        setIsLoading(false);
-      },
-      (err) => {
-        console.error("Firestore service fetch error:", err);
-        setServices([]);
-        setIsLoading(false);
-      }
-    );
-    return () => unsubscribe();
-  }, []);
+    let features: string[] = [];
+    if (Array.isArray(data.items) && data.items.length > 0) {
+      features = data.items
+        .map((it) => it.title || null)
+        .filter(Boolean) as string[];
+    } else {
+      features = [
+        data.item1Title || null,
+        data.item2Title || null,
+        data.item3Title || null,
+      ].filter(Boolean) as string[];
+    }
+
+    return {
+      id: data.id,
+      category: category,
+      title: data.title || "Layanan Kustom",
+      description: data.description || "Solusi digital sesuai kebutuhan bisnis.",
+      features: features.length > 0 ? features : ["Konsultasi Problem-First", "Desain & Implementasi"],
+    };
+  });
 
   const filteredServices = services.filter((item) => item.category === activeTab);
 
@@ -106,8 +77,8 @@ export default function ServicesSection() {
                 }
                 className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-heading font-extrabold text-sm border-2 transition-all cursor-pointer ${
                   isActive
-                    ? "bg-[#7b42f5] text-white border-[#13102b] shadow-[3px_3px_0px_0px_#13102b]"
-                    : "bg-white text-slate-800 border-[#13102b] hover:bg-[#f3f0ff] shadow-[2px_2px_0px_0px_#13102b]"
+                    ? "bg-brand-purple text-white border-brand-ink shadow-neo-sm"
+                    : "bg-white text-slate-800 border-brand-ink hover:bg-brand-purple-light shadow-[2px_2px_0px_0px_var(--color-brand-ink)]"
                 }`}
               >
                 {Icon && <Icon className="w-4 h-4 stroke-[2.5]" />}
@@ -152,7 +123,7 @@ export default function ServicesSection() {
                       {/* Title & Description */}
                       <h3
                         className={`font-heading font-black text-2xl mb-3 tracking-tight ${
-                          isPurpleBg ? "text-white" : "text-[#13102b]"
+                          isPurpleBg ? "text-white" : "text-brand-ink"
                         }`}
                       >
                         {service.title}
@@ -175,17 +146,17 @@ export default function ServicesSection() {
                         {service.features.map((feature, fIdx) => (
                           <div key={fIdx} className="flex items-start gap-2.5">
                             <div
-                              className={`w-5 h-5 rounded-full border-2 border-[#13102b] flex items-center justify-center shrink-0 mt-0.5 ${
+                              className={`w-5 h-5 rounded-full border-2 border-brand-ink flex items-center justify-center shrink-0 mt-0.5 ${
                                 isPurpleBg
-                                  ? "bg-white text-[#7b42f5]"
-                                  : "bg-[#7b42f5] text-white"
+                                  ? "bg-white text-brand-purple"
+                                  : "bg-brand-purple text-white"
                               }`}
                             >
                               <TbCheck className="w-3.5 h-3.5 stroke-[3]" />
                             </div>
                             <span
                               className={`text-xs sm:text-sm font-sans font-bold ${
-                                isPurpleBg ? "text-white" : "text-[#13102b]"
+                                isPurpleBg ? "text-white" : "text-brand-ink"
                               }`}
                             >
                               {feature}

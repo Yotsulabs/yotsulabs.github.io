@@ -35,7 +35,7 @@ export default function Select({
       {label && (
         <label
           htmlFor={selectId}
-          className="block font-heading font-black text-sm text-[#13102b]"
+          className="block font-heading font-black text-sm text-brand-ink"
         >
           {label}
         </label>
@@ -51,20 +51,20 @@ export default function Select({
         <select
           id={selectId}
           disabled={disabled}
-          className={`w-full bg-white text-[#13102b] text-sm font-sans font-semibold rounded-xl border-2 border-[#13102b] px-3.5 py-2.5 shadow-[3px_3px_0px_0px_#13102b] focus:outline-none focus:border-[#7b42f5] focus:shadow-[3px_3px_0px_0px_#7b42f5] transition-all appearance-none cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed ${
+          className={`w-full bg-white text-brand-ink text-sm font-sans font-semibold rounded-xl border-2 border-brand-ink px-3.5 py-2.5 shadow-neo-sm focus:outline-none focus:border-brand-purple focus:shadow-neo-purple transition-all appearance-none cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed ${
             Icon ? "pl-11" : ""
           } ${errorText ? "border-red-500 shadow-[3px_3px_0px_0px_#ef4444]" : ""} ${className}`}
           {...props}
         >
           {options.map((opt) => (
-            <option key={opt.value} value={opt.value} className="bg-white text-[#13102b]">
+            <option key={opt.value} value={opt.value} className="bg-white text-brand-ink">
               {opt.label}
             </option>
           ))}
         </select>
 
         {/* Custom Chevron Arrow */}
-        <div className="absolute right-3.5 pointer-events-none text-[#13102b]">
+        <div className="absolute right-3.5 pointer-events-none text-brand-ink">
           <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20">
             <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
           </svg>

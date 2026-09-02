@@ -30,7 +30,7 @@ export default function SectionHeader({
         </div>
       )}
 
-      <h2 className="font-heading font-black text-3xl sm:text-4xl lg:text-5xl text-[#13102b] tracking-tight max-w-3xl">
+      <h2 className="font-heading font-black text-3xl sm:text-4xl lg:text-5xl text-brand-ink tracking-tight max-w-3xl">
         {title}
       </h2>
 

@@ -39,7 +39,7 @@ export default function Navbar() {
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled
-            ? "pt-3.5 pb-4.5 bg-[#f9f8fd]/95 backdrop-blur-md border-b-3 border-[#13102b] shadow-sm"
+            ? "pt-3.5 pb-4.5 bg-brand-bg-soft/95 backdrop-blur-md border-b-3 border-brand-ink shadow-sm"
             : "pt-4.5 pb-5.5 bg-transparent"
         }`}
       >
@@ -48,7 +48,7 @@ export default function Navbar() {
             {/* Logo Button */}
             <Link
               href="/"
-              className="group flex items-center gap-2.5 h-10 px-3.5 rounded-xl bg-white border-2 border-[#13102b] shadow-[3px_3px_0px_0px_#7b42f5] hover:shadow-[4px_4px_0px_0px_#13102b] transition-all shrink-0"
+              className="group flex items-center gap-2.5 h-10 px-3.5 rounded-xl bg-white border-2 border-brand-ink shadow-neo-purple hover:shadow-neo-sm transition-all shrink-0"
             >
               <Image
                 src="/icons/logo_yotsulabs.png"
@@ -57,18 +57,18 @@ export default function Navbar() {
                 height={28}
                 className="w-7 h-7 object-contain"
               />
-              <span className="font-heading font-black text-lg tracking-tight text-[#13102b] group-hover:text-[#7b42f5] transition-colors whitespace-nowrap">
-                Yotsulabs<span className="text-[#7b42f5]">.</span>
+              <span className="font-heading font-black text-lg tracking-tight text-brand-ink group-hover:text-brand-purple transition-colors whitespace-nowrap">
+                Yotsulabs<span className="text-brand-purple">.</span>
               </span>
             </Link>
 
             {/* Desktop Nav Links (Visible ONLY on xl: screens 1280px+) */}
-            <nav className="hidden xl:flex items-center gap-1.5 h-10 bg-white border-2 border-[#13102b] px-3 py-1 rounded-xl shadow-[4px_4px_0px_0px_#13102b]">
+            <nav className="hidden xl:flex items-center gap-1.5 h-10 bg-white border-2 border-brand-ink px-3 py-1 rounded-xl shadow-neo-sm">
               {NAV_LINKS.map((link) => (
                 <Link
                   key={link.name}
                   href={link.href}
-                  className="px-3.5 py-1 text-sm font-bold text-slate-700 hover:text-[#13102b] hover:bg-[#f3f0ff] rounded-lg border border-transparent hover:border-[#13102b] transition-all"
+                  className="px-3.5 py-1 text-sm font-bold text-slate-700 hover:text-brand-ink hover:bg-brand-purple-light rounded-lg border border-transparent hover:border-brand-ink transition-all"
                 >
                   {link.name}
                 </Link>
@@ -100,10 +100,10 @@ export default function Navbar() {
               {/* Mobile / Tablet Hamburger Button (Visible on screens < xl) */}
               <button
                 onClick={() => setMobileMenuOpen(true)}
-                className="xl:hidden flex items-center gap-1.5 h-10 px-3.5 bg-white border-2 border-[#13102b] text-[#13102b] font-heading font-extrabold text-xs rounded-xl shadow-[3px_3px_0px_0px_#7b42f5] active:translate-x-[1px] active:translate-y-[1px] transition-all shrink-0 cursor-pointer"
+                className="xl:hidden flex items-center gap-1.5 h-10 px-3.5 bg-white border-2 border-brand-ink text-brand-ink font-heading font-extrabold text-xs rounded-xl shadow-neo-purple active:translate-x-[1px] active:translate-y-[1px] transition-all shrink-0 cursor-pointer"
                 aria-label="Open navigation menu"
               >
-                <TbMenu2 className="w-5 h-5 text-[#7b42f5] stroke-[2.5]" />
+                <TbMenu2 className="w-5 h-5 text-brand-purple stroke-[2.5]" />
                 <span className="font-mono uppercase tracking-wider">MENU</span>
               </button>
             </div>
@@ -119,18 +119,18 @@ export default function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-[100] bg-[#f9f8fd] overflow-y-auto px-4 py-4 sm:px-6 flex flex-col justify-between"
+            className="fixed inset-0 z-[100] bg-brand-bg-soft overflow-y-auto px-4 py-4 sm:px-6 flex flex-col justify-between"
           >
             {/* Background Grid Overlay */}
             <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(19,16,43,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(19,16,43,0.06)_1px,transparent_1px)] bg-[size:2.5rem_2.5rem] pointer-events-none" />
 
             <div className="relative z-10 space-y-6">
               {/* Drawer Top Bar Header */}
-              <div className="flex items-center justify-between border-b-2 border-[#13102b] pt-1 pb-4.5 gap-2">
+              <div className="flex items-center justify-between border-b-2 border-brand-ink pt-1 pb-4.5 gap-2">
                 <Link
                   href="/"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-2.5 h-10 px-3.5 rounded-xl bg-white border-2 border-[#13102b] shadow-[3px_3px_0px_0px_#7b42f5] shrink-0"
+                  className="flex items-center gap-2.5 h-10 px-3.5 rounded-xl bg-white border-2 border-brand-ink shadow-neo-purple shrink-0"
                 >
                   <Image
                     src="/icons/logo_yotsulabs.png"
@@ -139,17 +139,17 @@ export default function Navbar() {
                     height={28}
                     className="w-7 h-7 object-contain"
                   />
-                  <span className="font-heading font-black text-lg text-[#13102b]">
-                    Yotsulabs<span className="text-[#7b42f5]">.</span>
+                  <span className="font-heading font-black text-lg text-brand-ink">
+                    Yotsulabs<span className="text-brand-purple">.</span>
                   </span>
                 </Link>
 
                 {/* Close Button */}
                 <button
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-1.5 h-10 px-3 bg-white border-2 border-[#13102b] text-[#13102b] font-heading font-extrabold text-xs rounded-xl shadow-[3px_3px_0px_0px_#7b42f5] active:translate-x-[1px] active:translate-y-[1px] shrink-0 cursor-pointer"
+                  className="flex items-center gap-1.5 h-10 px-3 bg-white border-2 border-brand-ink text-brand-ink font-heading font-extrabold text-xs rounded-xl shadow-neo-purple active:translate-x-[1px] active:translate-y-[1px] shrink-0 cursor-pointer"
                 >
-                  <TbX className="w-5 h-5 text-[#7b42f5] stroke-[2.5]" />
+                  <TbX className="w-5 h-5 text-brand-purple stroke-[2.5]" />
                   <span className="font-mono uppercase tracking-wider">TUTUP</span>
                 </button>
               </div>
@@ -168,14 +168,14 @@ export default function Navbar() {
                       <Link
                         href={link.href}
                         onClick={() => setMobileMenuOpen(false)}
-                        className="group flex items-center justify-between p-3.5 bg-white border-2 border-[#13102b] rounded-xl shadow-[3px_3px_0px_0px_#7b42f5] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1px_1px_0px_0px_#13102b] transition-all"
+                        className="group flex items-center justify-between p-3.5 bg-white border-2 border-brand-ink rounded-xl shadow-neo-purple active:translate-x-[1px] active:translate-y-[1px] active:shadow-neo-sm transition-all"
                       >
                         <div className="flex items-center gap-3">
-                          <div className="w-9 h-9 rounded-lg bg-[#f3f0ff] border border-[#13102b] flex items-center justify-center text-[#7b42f5] shrink-0 group-hover:bg-[#7b42f5] group-hover:text-white transition-colors">
+                          <div className="w-9 h-9 rounded-lg bg-brand-purple-light border border-brand-ink flex items-center justify-center text-brand-purple shrink-0 group-hover:bg-brand-purple group-hover:text-white transition-colors">
                             <IconComp className="w-5 h-5 stroke-[2.5]" />
                           </div>
                           <div>
-                            <h3 className="font-heading font-black text-sm text-[#13102b] group-hover:text-[#7b42f5] transition-colors">
+                            <h3 className="font-heading font-black text-sm text-brand-ink group-hover:text-brand-purple transition-colors">
                               {link.name}
                             </h3>
                             <p className="text-[11px] font-sans text-slate-600 font-medium">
@@ -183,7 +183,7 @@ export default function Navbar() {
                             </p>
                           </div>
                         </div>
-                        <TbArrowUpRight className="w-4 h-4 text-slate-400 group-hover:text-[#7b42f5] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all stroke-[2.5]" />
+                        <TbArrowUpRight className="w-4 h-4 text-slate-400 group-hover:text-brand-purple group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all stroke-[2.5]" />
                       </Link>
                     </motion.div>
                   );
@@ -192,7 +192,7 @@ export default function Navbar() {
             </div>
 
             {/* Mobile Drawer Footer Actions */}
-            <div className="relative z-10 mt-6 pt-5 border-t-2 border-[#13102b] space-y-3">
+            <div className="relative z-10 mt-6 pt-5 border-t-2 border-brand-ink space-y-3">
               <Button
                 variant="secondary"
                 href="/orders"

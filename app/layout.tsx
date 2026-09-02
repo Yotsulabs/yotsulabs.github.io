@@ -40,10 +40,9 @@ export default function RootLayout({
       lang="id"
       className={`${rubik.variable} ${plusJakartaSans.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-grid-pattern text-[#13102b] font-sans selection:bg-[#7b42f5] selection:text-white">
+      <body className="min-h-full flex flex-col bg-grid-pattern text-brand-ink font-sans selection:bg-brand-purple selection:text-white">
         {children}
       </body>
     </html>
   );
 }
-

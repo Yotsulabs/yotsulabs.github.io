@@ -71,17 +71,17 @@ export default function PortfolioFormModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-[#13102b]/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto font-sans">
-      <div className="bg-white border-3 border-[#13102b] rounded-2xl max-w-lg w-full p-6 sm:p-8 shadow-[6px_6px_0px_0px_#13102b] space-y-6 relative animate-in fade-in zoom-in-95 max-h-[90vh] overflow-y-auto">
-        <div className="flex items-center justify-between border-b-2 border-[#13102b] pb-3">
-          <h3 className="font-heading font-black text-xl text-[#13102b]">
+    <div className="fixed inset-0 z-50 bg-brand-ink/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto font-sans">
+      <div className="bg-white border-3 border-brand-ink rounded-2xl max-w-lg w-full p-6 sm:p-8 shadow-neo-lg space-y-6 relative animate-in fade-in zoom-in-95 max-h-[90vh] overflow-y-auto">
+        <div className="flex items-center justify-between border-b-2 border-brand-ink pb-3">
+          <h3 className="font-heading font-black text-xl text-brand-ink">
             {editingPortfolio ? "Edit Portofolio" : "Tambah Portofolio Yotsulabs"}
           </h3>
           <button
             onClick={onClose}
             className="p-1 rounded-lg hover:bg-slate-100 cursor-pointer"
           >
-            <TbX className="w-5 h-5 text-[#13102b]" />
+            <TbX className="w-5 h-5 text-brand-ink" />
           </button>
         </div>
 
@@ -129,7 +129,7 @@ export default function PortfolioFormModal({
               onChange={(e) => setImageUrl(e.target.value)}
             />
             {imageUrl.trim() && (
-              <div className="mt-2 p-2 bg-slate-50 border-2 border-[#13102b] rounded-xl overflow-hidden">
+              <div className="mt-2 p-2 bg-slate-50 border-2 border-brand-ink rounded-xl overflow-hidden">
                 <span className="text-[10px] font-mono font-bold text-slate-500 block mb-1">
                   Preview Gambar:
                 </span>

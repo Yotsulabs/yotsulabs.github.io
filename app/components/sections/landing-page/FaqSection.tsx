@@ -29,22 +29,22 @@ export default function FaqSection() {
             return (
               <div
                 key={idx}
-                className={`bg-white border-3 border-[#13102b] rounded-2xl transition-all ${
+                className={`bg-white border-3 border-brand-ink rounded-2xl transition-all ${
                   isOpen
-                    ? "shadow-[6px_6px_0px_0px_#7b42f5]"
-                    : "shadow-[4px_4px_0px_0px_#13102b] hover:shadow-[5px_5px_0px_0px_#13102b]"
+                    ? "shadow-[6px_6px_0px_0px_var(--color-brand-purple)]"
+                    : "shadow-neo hover:shadow-[5px_5px_0px_0px_var(--color-brand-ink)]"
                 }`}
               >
                 <button
                   onClick={() => toggleFaq(idx)}
-                  className="w-full p-6 text-left flex items-center justify-between gap-4 font-heading font-black text-lg text-[#13102b] focus:outline-none cursor-pointer"
+                  className="w-full p-6 text-left flex items-center justify-between gap-4 font-heading font-black text-lg text-brand-ink focus:outline-none cursor-pointer"
                 >
                   <span>{faq.q}</span>
                   <div
-                    className={`w-8 h-8 rounded-lg border-2 border-[#13102b] flex items-center justify-center shrink-0 transition-all ${
+                    className={`w-8 h-8 rounded-lg border-2 border-brand-ink flex items-center justify-center shrink-0 transition-all ${
                       isOpen
-                        ? "bg-[#7b42f5] text-white rotate-180"
-                        : "bg-[#f3f0ff] text-[#13102b]"
+                        ? "bg-brand-purple text-white rotate-180"
+                        : "bg-brand-purple-light text-brand-ink"
                     }`}
                   >
                     {isOpen ? (

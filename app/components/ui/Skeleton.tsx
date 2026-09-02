@@ -17,8 +17,8 @@ export function Skeleton({ className = "" }: SkeletonProps) {
 // Table Skeleton Loader for Admin Orders Table
 export function TableSkeleton({ rows = 4 }: { rows?: number }) {
   return (
-    <div className="bg-white border-3 border-[#13102b] rounded-2xl overflow-hidden shadow-[6px_6px_0px_0px_#13102b]">
-      <div className="bg-[#13102b] p-4 flex items-center justify-between">
+    <div className="bg-white border-3 border-brand-ink rounded-2xl overflow-hidden shadow-neo-lg">
+      <div className="bg-brand-ink p-4 flex items-center justify-between">
         <Skeleton className="h-4 w-32 bg-slate-700 border-slate-600" />
         <Skeleton className="h-4 w-20 bg-slate-700 border-slate-600" />
       </div>
@@ -64,7 +64,7 @@ export function CardGridSkeleton({
       {Array.from({ length: count }).map((_, i) => (
         <div
           key={i}
-          className="bg-white border-3 border-[#13102b] rounded-2xl p-6 shadow-[6px_6px_0px_0px_#13102b] space-y-4"
+          className="bg-white border-3 border-brand-ink rounded-2xl p-6 shadow-neo-lg space-y-4"
         >
           {hasImage && <Skeleton className="h-40 w-full -mt-2 mb-4" />}
           <div className="flex items-center justify-between">

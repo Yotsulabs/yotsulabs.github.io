@@ -7,11 +7,12 @@
   --color-brand-purple-dark: #6b21a8;
   --color-brand-purple-light: #f3f0ff;
   --color-brand-bg-soft: #f9f8fd;
+  --color-brand-ink: #13102b;
 }
 
 :root {
-  --background: #f9f8fd;
-  --foreground: #13102b;
+  --background: var(--color-brand-bg-soft);
+  --foreground: var(--color-brand-ink);
 }
 
 body {
@@ -22,7 +23,7 @@ body {
 }
 
 .bg-grid-pattern {
-  background-color: #f9f8fd;
+  background-color: var(--color-brand-bg-soft);
   background-image: 
     linear-gradient(to right, rgba(19, 16, 43, 0.06) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(19, 16, 43, 0.06) 1px, transparent 1px);
@@ -37,25 +38,25 @@ body {
   font-family: var(--font-jakarta), system-ui, sans-serif;
 }
 
-/* Light Soft Neobrutalism Utilities (#13102b Dark Accents) */
+/* Light Soft Neobrutalism Utilities (Brand Ink Accents) */
 .shadow-neo {
-  box-shadow: 4px 4px 0px 0px #13102b;
+  box-shadow: 4px 4px 0px 0px var(--color-brand-ink);
 }
 
 .shadow-neo-sm {
-  box-shadow: 2px 2px 0px 0px #13102b;
+  box-shadow: 2px 2px 0px 0px var(--color-brand-ink);
 }
 
 .shadow-neo-lg {
-  box-shadow: 6px 6px 0px 0px #13102b;
+  box-shadow: 6px 6px 0px 0px var(--color-brand-ink);
 }
 
 .shadow-neo-purple {
-  box-shadow: 5px 5px 0px 0px #7b42f5;
+  box-shadow: 5px 5px 0px 0px var(--color-brand-purple);
 }
 
 .shadow-neo-purple-lg {
-  box-shadow: 7px 7px 0px 0px #7b42f5;
+  box-shadow: 7px 7px 0px 0px var(--color-brand-purple);
 }
 
 .shadow-neo-purple-soft {
@@ -67,15 +68,15 @@ body {
 }
 
 .border-neo-thick {
-  border: 3px solid #13102b;
+  border: 3px solid var(--color-brand-ink);
 }
 
 .border-neo {
-  border: 2px solid #13102b;
+  border: 2px solid var(--color-brand-ink);
 }
 
 .border-neo-purple {
-  border: 2px solid #7b42f5;
+  border: 2px solid var(--color-brand-purple);
 }
 
 /* Smooth scroll & Selection */
@@ -84,9 +85,6 @@ html {
 }
 
 ::selection {
-  background-color: #7b42f5;
+  background-color: var(--color-brand-purple);
   color: #ffffff;
 }
-
-
-

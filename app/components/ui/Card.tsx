@@ -15,18 +15,18 @@ export default function Card({
   children,
   className = "",
 }: CardProps) {
-  const baseClasses = "border-3 border-[#13102b] rounded-2xl p-6 sm:p-8 transition-all";
+  const baseClasses = "border-3 border-brand-ink rounded-2xl p-6 sm:p-8 transition-all";
 
   const variantClasses = {
-    white: "bg-white text-[#13102b]",
-    purple: "bg-[#7b42f5] text-white",
-    soft: "bg-[#f3f0ff] text-[#13102b]",
+    white: "bg-white text-brand-ink",
+    purple: "bg-brand-purple text-white",
+    soft: "bg-brand-purple-light text-brand-ink",
   };
 
   const shadowClasses = {
-    purple: "shadow-[6px_6px_0px_0px_#7b42f5]",
-    dark: "shadow-[6px_6px_0px_0px_#13102b]",
-    soft: "shadow-[4px_4px_0px_0px_#13102b]",
+    purple: "shadow-[6px_6px_0px_0px_var(--color-brand-purple)]",
+    dark: "shadow-neo-lg",
+    soft: "shadow-neo",
   };
 
   return (

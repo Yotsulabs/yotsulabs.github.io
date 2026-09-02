@@ -36,7 +36,7 @@ export default function ScrollToTop() {
           exit={{ opacity: 0, scale: 0.8, y: 20 }}
           transition={{ duration: 0.2 }}
           onClick={scrollToTop}
-          className="fixed bottom-6 right-6 z-40 w-12 h-12 bg-[#7b42f5] hover:bg-[#6b21a8] text-white rounded-xl border-2 border-[#13102b] shadow-[3px_3px_0px_0px_#13102b] flex items-center justify-center active:translate-x-[1px] active:translate-y-[1px] transition-all group"
+          className="fixed bottom-6 right-6 z-40 w-12 h-12 bg-brand-purple hover:bg-brand-purple-dark text-white rounded-xl border-2 border-brand-ink shadow-neo-sm flex items-center justify-center active:translate-x-[1px] active:translate-y-[1px] transition-all group cursor-pointer"
           aria-label="Scroll to top"
         >
           <TbArrowUp className="w-6 h-6 stroke-[3] group-hover:-translate-y-0.5 transition-transform" />

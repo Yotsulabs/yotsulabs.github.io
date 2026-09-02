@@ -1,18 +1,9 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import {
-  collection,
-  onSnapshot,
-  doc,
-  updateDoc,
-  deleteDoc,
-  query,
-  orderBy,
-  Timestamp,
-} from "firebase/firestore";
+import { doc, updateDoc, deleteDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
-import { OrderDoc } from "@/app/admin/types";
+import { OrderDoc } from "@/types";
 import {
   TbFileText,
   TbBrandWhatsapp,
@@ -25,6 +16,9 @@ import Badge from "@/app/components/ui/Badge";
 import EmptyState from "@/app/components/ui/EmptyState";
 import { TableSkeleton } from "@/app/components/ui/Skeleton";
 import OrderDetailModal from "@/app/components/modals/admin/OrderDetailModal";
+import { useFirestoreCollection } from "@/hooks/useFirestoreCollection";
+import { getWhatsAppLink } from "@/lib/whatsapp";
+import { formatFirestoreDate } from "@/lib/formatters";
 
 interface OrdersSectionProps {
   isAuthenticated: boolean;
@@ -35,37 +29,21 @@ export default function OrdersSection({
   isAuthenticated,
   onCountChange,
 }: OrdersSectionProps) {
-  const [orders, setOrders] = useState<OrderDoc[]>([]);
+  const { data: orders, isLoading: isLoadingOrders } = useFirestoreCollection<OrderDoc>(
+    "orders",
+    { enabled: isAuthenticated }
+  );
+
   const [orderFilter, setOrderFilter] = useState<string>("all");
   const [orderSearch, setOrderSearch] = useState("");
   const [selectedOrder, setSelectedOrder] = useState<OrderDoc | null>(null);
   const [orderToDelete, setOrderToDelete] = useState<OrderDoc | null>(null);
-  const [isLoadingOrders, setIsLoadingOrders] = useState(true);
 
-  // Subscribe to Orders Collection
   useEffect(() => {
-    if (!isAuthenticated) return;
-    const q = query(collection(db, "orders"), orderBy("createdAt", "desc"));
-    const unsubscribe = onSnapshot(
-      q,
-      (snapshot) => {
-        const orderList: OrderDoc[] = snapshot.docs.map((docSnap) => ({
-          id: docSnap.id,
-          ...(docSnap.data() as Omit<OrderDoc, "id">),
-        }));
-        setOrders(orderList);
-        setIsLoadingOrders(false);
-        if (onCountChange) {
-          onCountChange(orderList.length);
-        }
-      },
-      (err) => {
-        console.error("Error subscribing to orders:", err);
-        setIsLoadingOrders(false);
-      }
-    );
-    return () => unsubscribe();
-  }, [isAuthenticated, onCountChange]);
+    if (onCountChange) {
+      onCountChange(orders.length);
+    }
+  }, [orders, onCountChange]);
 
   // Update Order Status
   const handleUpdateOrderStatus = async (
@@ -112,25 +90,10 @@ export default function OrdersSection({
     return matchesFilter && matchesSearch;
   });
 
-  const formatDate = (ts: Timestamp | Date | null | undefined) => {
-    if (!ts) return "-";
-    const dateObj =
-      typeof (ts as Timestamp).toDate === "function"
-        ? (ts as Timestamp).toDate()
-        : new Date(ts as Date);
-    return dateObj.toLocaleDateString("id-ID", {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  };
-
   return (
     <div className="space-y-6">
       {/* Controls Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-4 rounded-2xl border-3 border-[#13102b] shadow-[5px_5px_0px_0px_#7b42f5]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-4 rounded-2xl border-3 border-brand-ink shadow-neo-purple">
         <div className="flex flex-wrap items-center gap-1.5">
           {[
             { id: "all", label: "Semua" },
@@ -144,7 +107,7 @@ export default function OrdersSection({
               onClick={() => setOrderFilter(f.id)}
               className={`px-3 py-1.5 rounded-lg text-xs font-heading font-extrabold border-2 transition-all cursor-pointer ${
                 orderFilter === f.id
-                  ? "bg-[#7b42f5] text-white border-[#13102b]"
+                  ? "bg-brand-purple text-white border-brand-ink"
                   : "bg-transparent text-slate-700 border-transparent hover:bg-slate-100"
               }`}
             >
@@ -175,11 +138,11 @@ export default function OrdersSection({
           fullWidth
         />
       ) : (
-        <div className="bg-white border-3 border-[#13102b] rounded-2xl overflow-hidden shadow-[6px_6px_0px_0px_#13102b]">
+        <div className="bg-white border-3 border-brand-ink rounded-2xl overflow-hidden shadow-neo-lg">
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-[#13102b] text-white font-heading text-xs uppercase tracking-wider">
+                <tr className="bg-brand-ink text-white font-heading text-xs uppercase tracking-wider">
                   <th className="py-3.5 px-4">Client / Brand</th>
                   <th className="py-3.5 px-4">Kontak WA</th>
                   <th className="py-3.5 px-4">Bidang &amp; Jasa</th>
@@ -193,7 +156,7 @@ export default function OrdersSection({
                 {filteredOrders.map((o) => (
                   <tr key={o.id} className="hover:bg-slate-50 transition-colors">
                     <td className="py-3.5 px-4">
-                      <div className="font-heading font-black text-[#13102b]">
+                      <div className="font-heading font-black text-brand-ink">
                         {o.fullName}
                       </div>
                       {o.companyName && (
@@ -205,7 +168,7 @@ export default function OrdersSection({
 
                     <td className="py-3.5 px-4">
                       <a
-                        href={`https://wa.me/${o.phone.replace(/[^0-9]/g, "")}`}
+                        href={getWhatsAppLink(o.phone)}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-1.5 font-mono text-xs font-bold text-emerald-700 hover:text-emerald-900 underline"
@@ -216,7 +179,7 @@ export default function OrdersSection({
                     </td>
 
                     <td className="py-3.5 px-4">
-                      <div className="font-bold text-xs text-[#13102b]">
+                      <div className="font-bold text-xs text-brand-ink">
                         {o.jasa}
                       </div>
                       <div className="text-[11px] text-slate-500 font-mono uppercase">
@@ -229,7 +192,7 @@ export default function OrdersSection({
                     </td>
 
                     <td className="py-3.5 px-4 text-xs font-mono text-slate-600">
-                      {formatDate(o.createdAt)}
+                      {formatFirestoreDate(o.createdAt)}
                     </td>
 
                     <td className="py-3.5 px-4">
@@ -239,7 +202,7 @@ export default function OrdersSection({
                     <td className="py-3.5 px-4 text-right space-x-1.5">
                       <button
                         onClick={() => setSelectedOrder(o)}
-                        className="px-2.5 py-1 bg-[#f3f0ff] hover:bg-[#7b42f5] hover:text-white border border-[#13102b] text-[#13102b] font-heading font-extrabold text-xs rounded-lg transition-colors cursor-pointer"
+                        className="px-2.5 py-1 bg-brand-purple-light hover:bg-brand-purple hover:text-white border border-brand-ink text-brand-ink font-heading font-extrabold text-xs rounded-lg transition-colors cursor-pointer"
                         title="Lihat Detail Brief"
                       >
                         Detail
@@ -247,7 +210,7 @@ export default function OrdersSection({
 
                       <button
                         onClick={() => setOrderToDelete(o)}
-                        className="p-1.5 text-rose-600 hover:bg-rose-100 rounded-lg border border-transparent hover:border-[#13102b] transition-colors cursor-pointer"
+                        className="p-1.5 text-rose-600 hover:bg-rose-100 rounded-lg border border-transparent hover:border-brand-ink transition-colors cursor-pointer"
                         title="Hapus Order"
                       >
                         <TbTrash className="w-4 h-4" />
@@ -266,14 +229,14 @@ export default function OrdersSection({
         order={selectedOrder}
         onClose={() => setSelectedOrder(null)}
         onUpdateStatus={handleUpdateOrderStatus}
-        formatDate={formatDate}
+        formatDate={formatFirestoreDate}
       />
 
       {/* MODAL 2: CONFIRM DELETE ORDER */}
       {orderToDelete && (
-        <div className="fixed inset-0 z-50 bg-[#13102b]/60 backdrop-blur-xs flex items-center justify-center p-4 font-sans">
-          <div className="bg-white border-3 border-[#13102b] rounded-2xl max-w-md w-full p-6 shadow-[8px_8px_0px_0px_#13102b] space-y-4 animate-in fade-in zoom-in-95">
-            <h3 className="font-heading font-black text-xl text-[#13102b]">
+        <div className="fixed inset-0 z-50 bg-brand-ink/60 backdrop-blur-xs flex items-center justify-center p-4 font-sans">
+          <div className="bg-white border-3 border-brand-ink rounded-2xl max-w-md w-full p-6 shadow-neo-lg space-y-4 animate-in fade-in zoom-in-95">
+            <h3 className="font-heading font-black text-xl text-brand-ink">
               Konfirmasi Hapus Order
             </h3>
             <p className="text-slate-600 text-xs font-medium">

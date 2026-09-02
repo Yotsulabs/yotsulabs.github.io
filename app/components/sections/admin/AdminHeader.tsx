@@ -34,7 +34,7 @@ export default function AdminHeader({
       {/* Top Header: Greeting & Logout */}
       <div className="flex items-center justify-between pb-6 mb-8 border-b-2 border-slate-200">
         <div>
-          <h1 className="font-heading font-black text-2xl sm:text-3xl text-[#13102b] tracking-tight">
+          <h1 className="font-heading font-black text-2xl sm:text-3xl text-brand-ink tracking-tight">
             Halo, {activeAdmin || "Admin"}! 👋
           </h1>
           <p className="text-slate-600 text-xs sm:text-sm font-medium mt-1">
@@ -56,7 +56,7 @@ export default function AdminHeader({
       {/* Tab Switcher & Title */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
-          <h2 className="font-heading font-black text-xl text-[#13102b]">
+          <h2 className="font-heading font-black text-xl text-brand-ink">
             Ringkasan Data &amp; Aktivitas
           </h2>
           <p className="text-slate-600 text-xs font-medium mt-0.5">
@@ -64,13 +64,13 @@ export default function AdminHeader({
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2 bg-white p-1.5 rounded-xl border-2 border-[#13102b] shadow-[3px_3px_0px_0px_#13102b] self-start md:self-auto">
+        <div className="flex flex-wrap items-center gap-2 bg-white p-1.5 rounded-xl border-2 border-brand-ink shadow-neo-sm self-start md:self-auto">
           <button
             onClick={() => setActiveTab("orders")}
             className={`flex items-center gap-2 px-3.5 py-2 rounded-lg font-heading font-extrabold text-xs transition-all cursor-pointer ${
               activeTab === "orders"
-                ? "bg-[#7b42f5] text-white border-2 border-[#13102b] shadow-[2px_2px_0px_0px_#13102b]"
-                : "text-slate-700 hover:bg-[#f3f0ff]"
+                ? "bg-brand-purple text-white border-2 border-brand-ink shadow-neo-sm"
+                : "text-slate-700 hover:bg-brand-purple-light"
             }`}
           >
             <TbFileText className="w-4 h-4" />
@@ -81,8 +81,8 @@ export default function AdminHeader({
             onClick={() => setActiveTab("portfolios")}
             className={`flex items-center gap-2 px-3.5 py-2 rounded-lg font-heading font-extrabold text-xs transition-all cursor-pointer ${
               activeTab === "portfolios"
-                ? "bg-[#7b42f5] text-white border-2 border-[#13102b] shadow-[2px_2px_0px_0px_#13102b]"
-                : "text-slate-700 hover:bg-[#f3f0ff]"
+                ? "bg-brand-purple text-white border-2 border-brand-ink shadow-neo-sm"
+                : "text-slate-700 hover:bg-brand-purple-light"
             }`}
           >
             <TbBriefcase className="w-4 h-4" />
@@ -93,8 +93,8 @@ export default function AdminHeader({
             onClick={() => setActiveTab("services")}
             className={`flex items-center gap-2 px-3.5 py-2 rounded-lg font-heading font-extrabold text-xs transition-all cursor-pointer ${
               activeTab === "services"
-                ? "bg-[#7b42f5] text-white border-2 border-[#13102b] shadow-[2px_2px_0px_0px_#13102b]"
-                : "text-slate-700 hover:bg-[#f3f0ff]"
+                ? "bg-brand-purple text-white border-2 border-brand-ink shadow-neo-sm"
+                : "text-slate-700 hover:bg-brand-purple-light"
             }`}
           >
             <TbLayoutDashboard className="w-4 h-4" />
@@ -114,11 +114,11 @@ export default function AdminHeader({
             <span className="text-xs font-mono font-bold text-slate-500 uppercase tracking-wider block">
               Total Order Masuk
             </span>
-            <span className="font-heading font-black text-2xl text-[#13102b]">
+            <span className="font-heading font-black text-2xl text-brand-ink">
               {ordersCount}
             </span>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-[#f3f0ff] border-2 border-[#13102b] flex items-center justify-center text-[#7b42f5]">
+          <div className="w-10 h-10 rounded-xl bg-brand-purple-light border-2 border-brand-ink flex items-center justify-center text-brand-purple">
             <TbFileText className="w-5 h-5" />
           </div>
         </Card>
@@ -132,11 +132,11 @@ export default function AdminHeader({
             <span className="text-xs font-mono font-bold text-slate-500 uppercase tracking-wider block">
               Portofolio Aktif
             </span>
-            <span className="font-heading font-black text-2xl text-[#13102b]">
+            <span className="font-heading font-black text-2xl text-brand-ink">
               {portfoliosCount}
             </span>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-[#f3f0ff] border-2 border-[#13102b] flex items-center justify-center text-[#7b42f5]">
+          <div className="w-10 h-10 rounded-xl bg-brand-purple-light border-2 border-brand-ink flex items-center justify-center text-brand-purple">
             <TbBriefcase className="w-5 h-5" />
           </div>
         </Card>
@@ -150,11 +150,11 @@ export default function AdminHeader({
             <span className="text-xs font-mono font-bold text-slate-500 uppercase tracking-wider block">
               Layanan / Jasa Kustom
             </span>
-            <span className="font-heading font-black text-2xl text-[#13102b]">
+            <span className="font-heading font-black text-2xl text-brand-ink">
               {servicesCount}
             </span>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-[#f3f0ff] border-2 border-[#13102b] flex items-center justify-center text-[#7b42f5]">
+          <div className="w-10 h-10 rounded-xl bg-brand-purple-light border-2 border-brand-ink flex items-center justify-center text-brand-purple">
             <TbLayoutDashboard className="w-5 h-5" />
           </div>
         </Card>

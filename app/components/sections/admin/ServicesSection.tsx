@@ -3,17 +3,14 @@
 import React, { useState, useEffect } from "react";
 import {
   collection,
-  onSnapshot,
   doc,
   updateDoc,
   deleteDoc,
   addDoc,
   serverTimestamp,
-  query,
-  orderBy,
 } from "firebase/firestore";
 import { db } from "@/lib/firebase";
-import { ServiceItemDoc, SubServiceItem } from "@/app/admin/types";
+import { ServiceItemDoc, SubServiceItem } from "@/types";
 import {
   TbLayoutDashboard,
   TbTrash,
@@ -27,6 +24,7 @@ import Badge from "@/app/components/ui/Badge";
 import EmptyState from "@/app/components/ui/EmptyState";
 import { CardGridSkeleton } from "@/app/components/ui/Skeleton";
 import ServiceFormModal from "@/app/components/modals/admin/ServiceFormModal";
+import { useFirestoreCollection } from "@/hooks/useFirestoreCollection";
 
 interface ServicesSectionProps {
   isAuthenticated: boolean;
@@ -37,36 +35,20 @@ export default function ServicesSection({
   isAuthenticated,
   onCountChange,
 }: ServicesSectionProps) {
-  const [services, setServices] = useState<ServiceItemDoc[]>([]);
+  const { data: services, isLoading: isLoadingServices } = useFirestoreCollection<ServiceItemDoc>(
+    "services",
+    { enabled: isAuthenticated }
+  );
+
   const [isServiceModalOpen, setIsServiceModalOpen] = useState(false);
   const [editingService, setEditingService] = useState<ServiceItemDoc | null>(null);
   const [serviceToDelete, setServiceToDelete] = useState<ServiceItemDoc | null>(null);
-  const [isLoadingServices, setIsLoadingServices] = useState(true);
 
-  // Subscribe to Services Collection
   useEffect(() => {
-    if (!isAuthenticated) return;
-    const q = query(collection(db, "services"), orderBy("createdAt", "desc"));
-    const unsubscribe = onSnapshot(
-      q,
-      (snapshot) => {
-        const svcList: ServiceItemDoc[] = snapshot.docs.map((docSnap) => ({
-          id: docSnap.id,
-          ...(docSnap.data() as Omit<ServiceItemDoc, "id">),
-        }));
-        setServices(svcList);
-        setIsLoadingServices(false);
-        if (onCountChange) {
-          onCountChange(svcList.length);
-        }
-      },
-      (err) => {
-        console.error("Error subscribing to services:", err);
-        setIsLoadingServices(false);
-      }
-    );
-    return () => unsubscribe();
-  }, [isAuthenticated, onCountChange]);
+    if (onCountChange) {
+      onCountChange(services.length);
+    }
+  }, [services, onCountChange]);
 
   // Open Service Modal for Add or Edit
   const openServiceModal = (svc?: ServiceItemDoc) => {
@@ -121,9 +103,9 @@ export default function ServicesSection({
   return (
     <div className="space-y-6">
       {/* Controls Bar */}
-      <div className="flex items-center justify-between bg-white p-4 rounded-2xl border-3 border-[#13102b] shadow-[5px_5px_0px_0px_#7b42f5]">
+      <div className="flex items-center justify-between bg-white p-4 rounded-2xl border-3 border-brand-ink shadow-neo-purple">
         <div>
-          <h3 className="font-heading font-black text-lg text-[#13102b]">
+          <h3 className="font-heading font-black text-lg text-brand-ink">
             Jasa Yotsulabs
           </h3>
         </div>
@@ -185,18 +167,18 @@ export default function ServicesSection({
                         className={`p-1.5 rounded-lg border transition-colors cursor-pointer ${
                           isPurpleBg
                             ? "text-white hover:bg-white/20 border-transparent hover:border-white"
-                            : "text-slate-700 hover:bg-[#f3f0ff] border-transparent hover:border-[#13102b]"
+                            : "text-slate-700 hover:bg-brand-purple-light border-transparent hover:border-brand-ink"
                         }`}
                         title="Edit Layanan"
                       >
-                        <TbEdit className={`w-4 h-4 ${isPurpleBg ? "text-white" : "text-[#7b42f5]"}`} />
+                        <TbEdit className={`w-4 h-4 ${isPurpleBg ? "text-white" : "text-brand-purple"}`} />
                       </button>
                       <button
                         onClick={() => setServiceToDelete(svc)}
                         className={`p-1.5 rounded-lg border transition-colors cursor-pointer ${
                           isPurpleBg
                             ? "text-rose-200 hover:bg-rose-900/40 border-transparent hover:border-white"
-                            : "text-rose-600 hover:bg-rose-100 border-transparent hover:border-[#13102b]"
+                            : "text-rose-600 hover:bg-rose-100 border-transparent hover:border-brand-ink"
                         }`}
                         title="Hapus Layanan"
                       >
@@ -208,7 +190,7 @@ export default function ServicesSection({
                   {/* Title & Description */}
                   <h3
                     className={`font-heading font-black text-2xl mb-3 tracking-tight ${
-                      isPurpleBg ? "text-white" : "text-[#13102b]"
+                      isPurpleBg ? "text-white" : "text-brand-ink"
                     }`}
                   >
                     {svc.title}
@@ -232,17 +214,17 @@ export default function ServicesSection({
                       {subItems.map((item, fIdx) => (
                         <div key={fIdx} className="flex items-start gap-2.5">
                           <div
-                            className={`w-5 h-5 rounded-full border-2 border-[#13102b] flex items-center justify-center shrink-0 mt-0.5 ${
+                            className={`w-5 h-5 rounded-full border-2 border-brand-ink flex items-center justify-center shrink-0 mt-0.5 ${
                               isPurpleBg
-                                ? "bg-white text-[#7b42f5]"
-                                : "bg-[#7b42f5] text-white"
+                                ? "bg-white text-brand-purple"
+                                : "bg-brand-purple text-white"
                             }`}
                           >
                             <TbCheck className="w-3.5 h-3.5 stroke-[3]" />
                           </div>
                           <span
                             className={`text-xs sm:text-sm font-sans font-bold ${
-                              isPurpleBg ? "text-white" : "text-[#13102b]"
+                              isPurpleBg ? "text-white" : "text-brand-ink"
                             }`}
                           >
                             {item.title}
@@ -269,9 +251,9 @@ export default function ServicesSection({
 
       {/* MODAL: CONFIRM DELETE SERVICE */}
       {serviceToDelete && (
-        <div className="fixed inset-0 z-50 bg-[#13102b]/60 backdrop-blur-xs flex items-center justify-center p-4 font-sans">
-          <div className="bg-white border-3 border-[#13102b] rounded-2xl max-w-md w-full p-6 shadow-[8px_8px_0px_0px_#13102b] space-y-4 animate-in fade-in zoom-in-95">
-            <h3 className="font-heading font-black text-xl text-[#13102b]">
+        <div className="fixed inset-0 z-50 bg-brand-ink/60 backdrop-blur-xs flex items-center justify-center p-4 font-sans">
+          <div className="bg-white border-3 border-brand-ink rounded-2xl max-w-md w-full p-6 shadow-neo-lg space-y-4 animate-in fade-in zoom-in-95">
+            <h3 className="font-heading font-black text-xl text-brand-ink">
               Konfirmasi Hapus Layanan
             </h3>
             <p className="text-slate-600 text-xs font-medium">

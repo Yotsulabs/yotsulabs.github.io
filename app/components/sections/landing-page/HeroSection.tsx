@@ -69,10 +69,10 @@ export default function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="font-heading font-black text-4xl sm:text-5xl lg:text-6xl text-[#13102b] tracking-tight leading-[1.15] mb-6 relative"
+              className="font-heading font-black text-4xl sm:text-5xl lg:text-6xl text-brand-ink tracking-tight leading-[1.15] mb-6 relative"
             >
               Skalakan Bisnis Anda dengan{" "}
-              <span className="relative inline-block text-white bg-[#7b42f5] px-3 py-0.5 border-2 border-[#13102b] shadow-[4px_4px_0px_0px_#13102b] rounded-md">
+              <span className="relative inline-block text-white bg-brand-purple px-3 py-0.5 border-2 border-brand-ink shadow-neo rounded-md">
                 Sentuhan Digital.
               </span>
             </motion.h1>

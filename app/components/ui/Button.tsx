@@ -24,7 +24,7 @@ export default function Button({
   ...props
 }: ButtonProps) {
   const baseClasses =
-    "inline-flex items-center justify-center font-heading font-extrabold rounded-xl border-2 border-[#13102b] active:translate-x-[1px] active:translate-y-[1px] transition-all group";
+    "inline-flex items-center justify-center font-heading font-extrabold rounded-xl border-2 border-brand-ink active:translate-x-[1px] active:translate-y-[1px] transition-all group cursor-pointer";
 
   const sizeClasses = {
     sm: "h-9 px-3 text-xs gap-1.5",
@@ -34,15 +34,15 @@ export default function Button({
 
   const variantClasses = {
     primary:
-      "bg-[#7b42f5] hover:bg-[#6b21a8] text-white shadow-[3px_3px_0px_0px_#13102b] active:shadow-[1px_1px_0px_0px_#13102b]",
+      "bg-brand-purple hover:bg-brand-purple-dark text-white shadow-neo-sm active:shadow-neo-sm",
     secondary:
-      "bg-white hover:bg-[#f3f0ff] text-[#13102b] shadow-[3px_3px_0px_0px_#7b42f5] active:shadow-[1px_1px_0px_0px_#7b42f5]",
+      "bg-white hover:bg-brand-purple-light text-brand-ink shadow-neo-purple active:shadow-neo-purple",
     outline:
-      "bg-white hover:bg-slate-50 text-[#13102b] shadow-[3px_3px_0px_0px_#13102b]",
+      "bg-white hover:bg-slate-50 text-brand-ink shadow-neo-sm",
     ghost:
-      "bg-transparent hover:bg-[#f3f0ff] text-slate-700 hover:text-[#13102b] border-transparent shadow-none",
+      "bg-transparent hover:bg-brand-purple-light text-slate-700 hover:text-brand-ink border-transparent shadow-none",
     icon:
-      "w-11 h-11 p-0 bg-white hover:bg-[#7b42f5] hover:text-white text-[#13102b] shadow-[3px_3px_0px_0px_#7b42f5] hover:shadow-[3px_3px_0px_0px_#13102b]",
+      "w-11 h-11 p-0 bg-white hover:bg-brand-purple hover:text-white text-brand-ink shadow-neo-purple hover:shadow-neo-sm",
   };
 
   const combinedClasses = `${baseClasses} ${sizeClasses[size]} ${variantClasses[variant]} ${className}`;

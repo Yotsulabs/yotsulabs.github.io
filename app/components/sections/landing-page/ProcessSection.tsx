@@ -38,14 +38,14 @@ export default function ProcessSection() {
                   markerHeight="8"
                   orient="auto-start-reverse"
                 >
-                  <path d="M 0 1 L 10 5 L 0 9 z" fill="#7b42f5" />
+                  <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--color-brand-purple)" />
                 </marker>
               </defs>
 
               {/* 01 -> 02 (Top Left -> Top Right) */}
               <path
                 d="M 340 100 Q 420 100, 460 130"
-                stroke="#13102b"
+                stroke="var(--color-brand-ink)"
                 strokeWidth="2.5"
                 strokeDasharray="6 6"
                 markerEnd="url(#process-arrowhead)"
@@ -55,7 +55,7 @@ export default function ProcessSection() {
               {/* 02 -> 03 (Top Right -> Mid Left) */}
               <path
                 d="M 460 220 Q 380 280, 340 300"
-                stroke="#13102b"
+                stroke="var(--color-brand-ink)"
                 strokeWidth="2.5"
                 strokeDasharray="6 6"
                 markerEnd="url(#process-arrowhead)"
@@ -65,7 +65,7 @@ export default function ProcessSection() {
               {/* 03 -> 04 (Mid Left -> Mid Right) */}
               <path
                 d="M 340 340 Q 420 340, 460 380"
-                stroke="#13102b"
+                stroke="var(--color-brand-ink)"
                 strokeWidth="2.5"
                 strokeDasharray="6 6"
                 markerEnd="url(#process-arrowhead)"
@@ -75,7 +75,7 @@ export default function ProcessSection() {
               {/* 04 -> 05 (Mid Right -> Bottom Left) */}
               <path
                 d="M 460 460 Q 380 520, 340 550"
-                stroke="#13102b"
+                stroke="var(--color-brand-ink)"
                 strokeWidth="2.5"
                 strokeDasharray="6 6"
                 markerEnd="url(#process-arrowhead)"
@@ -100,22 +100,22 @@ export default function ProcessSection() {
                 >
                   {/* Card Container with Slightly Enlarged Padding & Typography */}
                   <div
-                    className={`${step.bgColor} border-3 border-[#13102b] rounded-3xl p-5 sm:p-6 shadow-[5px_5px_0px_0px_#13102b] hover:shadow-[7px_7px_0px_0px_#7b42f5] transition-all duration-300 transform ${step.rotation} relative group h-full flex flex-col justify-start space-y-2 max-w-md w-full mx-auto`}
+                    className={`${step.bgColor} border-3 border-brand-ink rounded-3xl p-5 sm:p-6 shadow-[5px_5px_0px_0px_var(--color-brand-ink)] hover:shadow-[7px_7px_0px_0px_var(--color-brand-purple)] transition-all duration-300 transform ${step.rotation} relative group h-full flex flex-col justify-start space-y-2 max-w-md w-full mx-auto`}
                   >
                     {/* Top Center Pushpin Icon Badge */}
-                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-[#13102b] text-white border-2 border-white shadow-[2px_2px_0px_0px_#7b42f5] flex items-center justify-center z-20 group-hover:scale-110 transition-transform">
-                      <TbPin className="w-4 h-4 text-[#7b42f5] rotate-45" />
+                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-brand-ink text-white border-2 border-white shadow-[2px_2px_0px_0px_var(--color-brand-purple)] flex items-center justify-center z-20 group-hover:scale-110 transition-transform">
+                      <TbPin className="w-4 h-4 text-brand-purple rotate-45" />
                     </div>
 
                     {/* Step Number */}
                     <div className="pt-1">
-                      <span className="font-heading font-black text-3xl sm:text-4xl text-[#7b42f5]">
+                      <span className="font-heading font-black text-3xl sm:text-4xl text-brand-purple">
                         {step.num}
                       </span>
                     </div>
 
                     {/* Title */}
-                    <h3 className="font-heading font-black text-lg sm:text-xl text-[#13102b] tracking-tight">
+                    <h3 className="font-heading font-black text-lg sm:text-xl text-brand-ink tracking-tight">
                       {step.title}
                     </h3>
 

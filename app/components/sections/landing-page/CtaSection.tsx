@@ -9,7 +9,7 @@ export default function CtaSection() {
   return (
     <section className="py-20 bg-transparent relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative bg-[#7b42f5] border-3 border-[#13102b] rounded-3xl p-8 sm:p-14 shadow-[10px_10px_0px_0px_#13102b] overflow-hidden">
+        <div className="relative bg-brand-purple border-3 border-brand-ink rounded-3xl p-8 sm:p-14 shadow-[10px_10px_0px_0px_var(--color-brand-ink)] overflow-hidden">
 
           {/* Decorative Spark Banner Asset */}
           <motion.div

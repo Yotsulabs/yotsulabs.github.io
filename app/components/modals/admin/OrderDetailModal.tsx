@@ -26,29 +26,29 @@ export default function OrderDetailModal({
   if (!order) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-[#13102b]/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
-      <div className="bg-white border-3 border-[#13102b] rounded-2xl max-w-2xl w-full p-6 sm:p-8 shadow-[6px_6px_0px_0px_#13102b] max-h-[90vh] overflow-y-auto space-y-6 relative animate-in fade-in zoom-in-95 font-sans">
-        <div className="flex items-center justify-between border-b-2 border-[#13102b] pb-4">
+    <div className="fixed inset-0 z-50 bg-brand-ink/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
+      <div className="bg-white border-3 border-brand-ink rounded-2xl max-w-2xl w-full p-6 sm:p-8 shadow-neo-lg max-h-[90vh] overflow-y-auto space-y-6 relative animate-in fade-in zoom-in-95 font-sans">
+        <div className="flex items-center justify-between border-b-2 border-brand-ink pb-4">
           <div className="flex items-center gap-2">
-            <span className="font-heading font-black text-xl text-[#13102b]">
+            <span className="font-heading font-black text-xl text-brand-ink">
               Detail Brief Order
             </span>
             <Badge status={order.status} size="sm" />
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-xl bg-slate-100 border border-[#13102b] hover:bg-slate-200 cursor-pointer"
+            className="p-1.5 rounded-xl bg-slate-100 border border-brand-ink hover:bg-slate-200 cursor-pointer"
           >
-            <TbX className="w-5 h-5 text-[#13102b]" />
+            <TbX className="w-5 h-5 text-brand-ink" />
           </button>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-[#f9f8fd] p-4 rounded-xl border-2 border-[#13102b]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-brand-bg-soft p-4 rounded-xl border-2 border-brand-ink">
           <div>
             <span className="text-xs font-mono font-bold text-slate-500 block">
               Nama Pemesan:
             </span>
-            <span className="font-heading font-black text-base text-[#13102b]">
+            <span className="font-heading font-black text-base text-brand-ink">
               {order.fullName}
             </span>
           </div>
@@ -56,7 +56,7 @@ export default function OrderDetailModal({
             <span className="text-xs font-mono font-bold text-slate-500 block">
               Usaha / Organisasi:
             </span>
-            <span className="font-heading font-bold text-sm text-[#13102b]">
+            <span className="font-heading font-bold text-sm text-brand-ink">
               {order.companyName || "-"}
             </span>
           </div>
@@ -88,11 +88,11 @@ export default function OrderDetailModal({
           <div className="grid grid-cols-2 gap-3 bg-white p-3 rounded-xl border border-slate-300 font-mono text-xs">
             <div>
               <span className="text-slate-500 block">Bidang:</span>
-              <span className="font-bold text-[#7b42f5]">{order.bidang}</span>
+              <span className="font-bold text-brand-purple">{order.bidang}</span>
             </div>
             <div>
               <span className="text-slate-500 block">Jasa:</span>
-              <span className="font-bold text-[#13102b]">{order.jasa}</span>
+              <span className="font-bold text-brand-ink">{order.jasa}</span>
             </div>
             <div>
               <span className="text-slate-500 block">Target Waktu:</span>
@@ -170,8 +170,8 @@ export default function OrderDetailModal({
               <button
                 key={st.status}
                 onClick={() => onUpdateStatus(order.id, st.status)}
-                className={`px-3 py-1.5 rounded-lg border-2 border-[#13102b] font-heading font-extrabold text-xs transition-all cursor-pointer ${order.status === st.status
-                    ? "bg-[#7b42f5] text-white shadow-[2px_2px_0px_0px_#13102b]"
+                className={`px-3 py-1.5 rounded-lg border-2 border-brand-ink font-heading font-extrabold text-xs transition-all cursor-pointer ${order.status === st.status
+                    ? "bg-brand-purple text-white shadow-neo-sm"
                     : `bg-white ${st.bg}`
                   }`}
               >
@@ -186,7 +186,7 @@ export default function OrderDetailModal({
             href={`https://wa.me/${order.phone.replace(/[^0-9]/g, "")}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-heading font-extrabold text-xs rounded-xl border-2 border-[#13102b] shadow-[3px_3px_0px_0px_#13102b] transition-all"
+            className="inline-flex items-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-heading font-extrabold text-xs rounded-xl border-2 border-brand-ink shadow-neo-sm transition-all"
           >
             <TbBrandWhatsapp className="w-4 h-4" />
             <span>Hubungi Client via WA</span>

@@ -35,8 +35,8 @@ export default function EmptyState({
 }: EmptyStateProps) {
   const shadowClass =
     shadowVariant === "black"
-      ? "shadow-[6px_6px_0px_0px_#13102b]"
-      : "shadow-[6px_6px_0px_0px_#7b42f5]";
+      ? "shadow-neo-lg"
+      : "shadow-[6px_6px_0px_0px_var(--color-brand-purple)]";
 
   const widthClass = fullWidth ? "w-full" : "max-w-2xl mx-auto";
 
@@ -44,15 +44,15 @@ export default function EmptyState({
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className={`bg-white border-3 border-[#13102b] rounded-2xl p-8 sm:p-12 ${shadowClass} ${widthClass} text-center space-y-4 font-sans ${className}`}
+      className={`bg-white border-3 border-brand-ink rounded-2xl p-8 sm:p-12 ${shadowClass} ${widthClass} text-center space-y-4 font-sans ${className}`}
     >
       {Icon && (
-        <div className="w-14 h-14 rounded-2xl bg-[#f3f0ff] border-2 border-[#13102b] shadow-[3px_3px_0px_0px_#13102b] flex items-center justify-center text-[#7b42f5] mx-auto">
+        <div className="w-14 h-14 rounded-2xl bg-brand-purple-light border-2 border-brand-ink shadow-neo-sm flex items-center justify-center text-brand-purple mx-auto">
           <Icon className="w-7 h-7 stroke-[2.5]" />
         </div>
       )}
 
-      <h3 className="font-heading font-black text-2xl text-[#13102b]">
+      <h3 className="font-heading font-black text-2xl text-brand-ink">
         {title}
       </h3>
 
