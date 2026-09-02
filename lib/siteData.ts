@@ -89,7 +89,7 @@ export interface FaqItem {
 export const FAQ_DATA: FaqItem[] = [
   {
     q: "Solusi digital apa saja yang dapat dikembangkan Yotsulabs?",
-    a: "Yotsulabs menyediakan solusi Technology, Creative, dan Digital Marketing. Mulai dari Website, Business System, dan Business Automation, hingga UI/UX Design, Graphic Design, Illustration, Video Promotion, Content Marketing, dan SEO.",
+    a: "Yotsulabs menyediakan solusi Technology, Creative, dan Digital Marketing. Mulai dari Website dan Business System, hingga UI/UX Design, Graphic Design, Illustration, Video Promotion, Content Marketing, dan SEO.",
   },
   {
     q: "Apakah Yotsulabs dapat mengembangkan solusi yang terintegrasi?",
